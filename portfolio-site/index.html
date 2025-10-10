@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Track — Portfolio</title>
+  <meta name="description" content="Personal portfolio: About, Skills, Projects, Contact" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Ccircle cx='128' cy='128' r='120' fill='%230a84ff'/%3E%3Cpath d='M76 144l40 40 64-96' fill='none' stroke='white' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <!-- ========== Header / Navbar ========== -->
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a href="#top" class="brand" aria-label="Homepage">
+        <span class="brand-badge" aria-hidden="true">LT</span>
+        <span class="brand-text">Live Track</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navMenu">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li>
+          <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ========== Hero ========== -->
+  <section class="hero container" id="home">
+    <div class="hero-content" data-reveal>
+      <p class="eyebrow">Hello, I'm</p>
+      <h1>Live Track</h1>
+      <p class="subtitle">Full‑stack builder crafting logistics tech, analytics dashboards, and elegant UIs.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn primary">View Projects</a>
+        <a href="#contact" class="btn ghost">Contact Me</a>
+      </div>
+      <ul class="hero-social" aria-label="Social links">
+        <li><a href="#" aria-label="GitHub" class="social">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.23 3.38 9.66 8.08 11.23.59.1.8-.26.8-.57l-.02-2.02c-3.28.73-3.97-1.42-3.97-1.42-.54-1.39-1.33-1.76-1.33-1.76-1.09-.77.08-.75.08-.75 1.2.09 1.83 1.25 1.83 1.25 1.07 1.89 2.8 1.35 3.48 1.03.11-.78.42-1.35.76-1.66-2.62-.3-5.37-1.34-5.37-5.97 0-1.32.47-2.4 1.24-3.25-.12-.3-.54-1.52.12-3.16 0 0 1.01-.33 3.3 1.24a11.1 11.1 0 0 1 6 0c2.28-1.57 3.29-1.24 3.29-1.24.67 1.64.25 2.86.12 3.16.77.85 1.24 1.93 1.24 3.25 0 4.64-2.76 5.66-5.39 5.96.43.37.81 1.1.81 2.22l-.01 3.29c0 .31.21.67.81.56A11.54 11.54 0 0 0 23.5 12.3 11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a></li>
+        <li><a href="#" aria-label="LinkedIn" class="social">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 5.96H2V22h3V9.46ZM9 9.46H6v12.5h3V16c0-1.6.3-3.2 2.33-3.2C13.3 12.8 13 14.8 13 16v5.96h3V15.5c0-3.2-.69-5.5-4.04-5.5-1.64 0-2.46.9-2.96 1.73h-.04V9.46Z"/></svg>
+        </a></li>
+        <li><a href="#" aria-label="Twitter" class="social">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 5.8c-.7.3-1.5.5-2.3.6a4 4 0 0 0 1.8-2.2c-.8.5-1.6.8-2.6 1A4 4 0 0 0 12 8.7a11.2 11.2 0 0 1-8.1-4.1c-.9 1.6-.2 3.6 1.3 4.6-.6 0-1.2-.2-1.7-.5 0 2 1.4 3.7 3.3 4.1-.5.1-1 .2-1.6.1.5 1.7 2.1 3 4 3.1A8.1 8.1 0 0 1 2 18.3 11.5 11.5 0 0 0 8.3 20c7 0 10.9-5.9 10.9-11 0-.2 0-.3 0-.5A7.8 7.8 0 0 0 22 5.8Z"/></svg>
+        </a></li>
+      </ul>
+    </div>
+    <div class="hero-art" data-reveal>
+      <div class="blob" aria-hidden="true"></div>
+      <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1600&auto=format&fit=crop" alt="Developer at desk illustration" loading="lazy"/>
+    </div>
+  </section>
+
+  <!-- ========== About ========== -->
+  <section class="section container" id="about">
+    <div class="section-head" data-reveal>
+      <h2>About</h2>
+      <p>Builder focused on clarity, performance, and delightful UX. I turn complex logistics and analytics into simple, usable products.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card" data-reveal>
+        <h3>What I do</h3>
+        <ul class="checklist">
+          <li>Full‑stack apps (Flutter, React, Node)</li>
+          <li>Live tracking & map features</li>
+          <li>Dashboards & data viz</li>
+          <li>Design systems & branding</li>
+        </ul>
+      </div>
+      <div class="about-card" data-reveal>
+        <h3>Highlights</h3>
+        <ul class="bullets">
+          <li>MongoDB MUG Mumbai lead</li>
+          <li>Built end‑to‑end supply‑chain suite</li>
+          <li>UI/UX heavy, mobile‑first</li>
+          <li>Automation & integrations</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Skills ========== -->
+  <section class="section alt" id="skills">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>Skills</h2>
+        <p>Toolbox I use daily.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill" data-reveal>
+          <div class="skill-top">
+            <span>Flutter</span><span>90%</span>
+          </div>
+          <div class="bar"><span style="--w:90%"></span></div>
+        </div>
+        <div class="skill" data-reveal>
+          <div class="skill-top">
+            <span>React</span><span>85%</span>
+          </div>
+          <div class="bar"><span style="--w:85%"></span></div>
+        </div>
+        <div class="skill" data-reveal>
+          <div class="skill-top">
+            <span>Node/Express</span><span>80%</span>
+          </div>
+          <div class="bar"><span style="--w:80%"></span></div>
+        </div>
+        <div class="skill" data-reveal>
+          <div class="skill-top">
+            <span>Firebase</span><span>80%</span>
+          </div>
+          <div class="bar"><span style="--w:80%"></span></div>
+        </div>
+        <div class="skill" data-reveal>
+          <div class="skill-top">
+            <span>Maps APIs</span><span>85%</span>
+          </div>
+          <div class="bar"><span style="--w:85%"></span></div>
+        </div>
+        <div class="skill" data-reveal>
+          <div class="skill-top">
+            <span>UI/UX</span><span>88%</span>
+          </div>
+          <div class="bar"><span style="--w:88%"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Projects ========== -->
+  <section class="section container" id="projects">
+    <div class="section-head" data-reveal>
+      <h2>Projects</h2>
+      <p>Selected work spanning apps, dashboards, and web.</p>
+    </div>
+
+    <div class="filters" data-reveal>
+      <button class="chip active" data-filter="all">All</button>
+      <button class="chip" data-filter="app">Apps</button>
+      <button class="chip" data-filter="web">Web</button>
+      <button class="chip" data-filter="data">Data</button>
+    </div>
+
+    <div class="grid cards" id="projectGrid">
+      <!-- Card 1 -->
+      <article class="card" data-type="app" data-reveal>
+        <img src="https://images.unsplash.com/photo-1512894979840-7f67b67ea2c0?q=80&w=1600&auto=format&fit=crop" alt="Live Tracking App" loading="lazy"/>
+        <div class="card-body">
+          <h3>Cold Chain Live‑Track</h3>
+          <p>Flutter + Google Maps: live trucks, clustering, custom markers, routes.</p>
+          <div class="tags"><span>Flutter</span><span>Maps</span><span>Realtime</span></div>
+          <div class="card-actions">
+            <a href="#" class="btn small">Demo</a>
+            <a href="#" class="btn small ghost">Code</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card" data-type="web" data-reveal>
+        <img src="https://images.unsplash.com/photo-1527430253228-e93688616381?q=80&w=1600&auto=format&fit=crop" alt="ERP Admin Panel" loading="lazy"/>
+        <div class="card-body">
+          <h3>UASPL ERP (Web)</h3>
+          <p>React admin with role‑based access, Firestore auth, and Tailwind UI.</p>
+          <div class="tags"><span>React</span><span>Firebase</span><span>RBAC</span></div>
+          <div class="card-actions">
+            <a href="#" class="btn small">Case Study</a>
+            <a href="#" class="btn small ghost">GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card" data-type="data" data-reveal>
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop" alt="Analytics Dashboard" loading="lazy"/>
+        <div class="card-body">
+          <h3>Sales KPI Dashboard</h3>
+          <p>Interactive pipeline, targets, and win‑rate with clean storytelling.</p>
+          <div class="tags"><span>Data</span><span>Charts</span><span>Story</span></div>
+          <div class="card-actions">
+            <a href="#" class="btn small">Live</a>
+            <a href="#" class="btn small ghost">Repo</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- More sample cards -->
+      <article class="card" data-type="web" data-reveal>
+        <img src="https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=1600&auto=format&fit=crop" alt="Portfolio Website" loading="lazy"/>
+        <div class="card-body">
+          <h3>Portfolio v2</h3>
+          <p>High‑performance static site with a11y and dark mode.</p>
+          <div class="tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
+          <div class="card-actions">
+            <a href="#" class="btn small">Preview</a>
+            <a href="#" class="btn small ghost">Code</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== Contact ========== -->
+  <section class="section alt" id="contact">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>Contact</h2>
+        <p>Have a project in mind? Let's talk.</p>
+      </div>
+
+      <form class="contact-form" id="contactForm" novalidate data-reveal>
+        <div class="form-row">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+          <small class="error" id="errName"></small>
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          <small class="error" id="errEmail"></small>
+        </div>
+        <div class="form-row">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me a bit about your project" required></textarea>
+          <small class="error" id="errMessage"></small>
+        </div>
+        <button type="submit" class="btn primary">Send Message</button>
+        <p class="form-note">* This demo validates on the client only. Hook it to your backend or a service like Formspree.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>© <span id="year"></span> Live Track • Built with ♥</p>
+      <a href="#top" class="to-top" aria-label="Back to top">↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
