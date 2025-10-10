@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product • NovaStore</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Nav -->
+  <header class="nav">
+    <a class="brand" href="#" aria-label="NovaStore Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="logo"><path d="M3 12l6-9 6 9-6 9-6-9zm6 0l6-9 6 9-6 9-6-9z"/></svg>
+      <span>NovaStore</span>
+    </a>
+    <div class="nav-actions">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24"><path d="M10 18a8 8 0 115.293-2.707L21 21l-1.414 1.414-5.707-5.707A7.962 7.962 0 0110 18z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart" id="openCartBtn">
+        <svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2v2h2l2.6 7H18l2-8H8l-.4-1H7zM7 22a2 2 0 100-4 2 2 0 000 4zm10 0a2 2 0 100-4 2 2 0 000 4z"/></svg>
+        <span class="cart-badge" id="cartCount">0</span>
+      </button>
+      <button class="icon-btn" aria-label="Toggle theme" id="themeToggle">
+        <svg viewBox="0 0 24 24"><path d="M12 3a1 1 0 011 1v2a1 1 0 01-2 0V4a1 1 0 011-1zm0 14a5 5 0 110-10 5 5 0 010 10zm8-5a1 1 0 010 2h-2a1 1 0 010-2h2zM6 12a1 1 0 010 2H4a1 1 0 010-2h2zm11.657-6.657l1.414 1.414a1 1 0 01-1.414 1.414L16.243 6.757A1 1 0 1117.657 5.343zM7.757 16.243l-1.414 1.414A1 1 0 114.93 16.243l1.414-1.414a1 1 0 111.414 1.414z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Product Section -->
+  <main class="container">
+    <section class="product">
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="thumbs" role="tablist" aria-label="Product images">
+          <button class="thumb is-active" role="tab" aria-selected="true" data-img="images/1.jpg">
+            <img src="https://images.unsplash.com/photo-1526178611290-9023e21c0f4a?q=80&w=600&auto=format&fit=crop" alt="Angle 1" />
+          </button>
+          <button class="thumb" role="tab" aria-selected="false" data-img="images/2.jpg">
+            <img src="https://images.unsplash.com/photo-1526312426976-593c2d0b7b43?q=80&w=600&auto=format&fit=crop" alt="Angle 2" />
+          </button>
+          <button class="thumb" role="tab" aria-selected="false" data-img="images/3.jpg">
+            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600&auto=format&fit=crop" alt="Angle 3" />
+          </button>
+          <button class="thumb" role="tab" aria-selected="false" data-img="images/4.jpg">
+            <img src="https://images.unsplash.com/photo-1512499617640-c2f999098c32?q=80&w=600&auto=format&fit=crop" alt="Angle 4" />
+          </button>
+        </div>
+
+        <div class="hero-wrap">
+          <img id="heroImg" class="hero" src="https://images.unsplash.com/photo-1526178611290-9023e21c0f4a?q=80&w=1400&auto=format&fit=crop" alt="Product main" />
+          <div id="zoomLens" class="zoom-lens" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="info">
+        <h1 class="title">Nimbus XT Wireless Headphones</h1>
+        <div class="meta">
+          <div class="rating" aria-label="Rating 4.6 out of 5">
+            <span class="stars" data-stars="4.6" aria-hidden="true"></span>
+            <span class="rating-text">4.6 • 1,284 reviews</span>
+          </div>
+          <div class="badges">
+            <span class="badge badge-hot">Bestseller</span>
+            <span class="badge badge-new">New Arrival</span>
+          </div>
+        </div>
+
+        <div class="price-row">
+          <div>
+            <div class="price">
+              <span id="finalPrice" class="price-now">₹7,999</span>
+              <span class="price-mrp" id="mrp">₹11,999</span>
+              <span class="price-off" id="offPct">33% off</span>
+            </div>
+            <p class="tax">Inclusive of all taxes • Free returns</p>
+          </div>
+          <button id="wishBtn" class="wish-btn" aria-pressed="false" aria-label="Add to wishlist">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-6.716-4.44-9.2-7.2C.4 11.4 1 7.2 4.8 6c2.4-.8 4.4.8 5.2 2 .8-1.2 2.8-2.8 5.2-2 3.8 1.2 4.4 5.4 1.2 7.8C18.716 16.56 12 21 12 21z"/></svg>
+            <span>Wishlist</span>
+          </button>
+        </div>
+
+        <!-- Options -->
+        <div class="options">
+          <div class="opt">
+            <label class="opt-label">Color</label>
+            <div class="swatches" role="radiogroup" aria-label="Choose color" id="colorGroup">
+              <button class="swatch is-selected" role="radio" aria-checked="true" data-color="black" style="--sw: #111" aria-label="Black"></button>
+              <button class="swatch" role="radio" aria-checked="false" data-color="silver" style="--sw: #c9c9c9" aria-label="Silver"></button>
+              <button class="swatch" role="radio" aria-checked="false" data-color="blue" style="--sw: #4f7cff" aria-label="Blue"></button>
+            </div>
+          </div>
+
+          <div class="opt">
+            <label class="opt-label" for="sizeSelect">Size</label>
+            <div class="segmented" role="radiogroup" aria-label="Choose size" id="sizeGroup">
+              <button class="seg is-selected" role="radio" aria-checked="true" data-size="S">S</button>
+              <button class="seg" role="radio" aria-checked="false" data-size="M">M</button>
+              <button class="seg" role="radio" aria-checked="false" data-size="L">L</button>
+            </div>
+          </div>
+
+          <div class="opt qty">
+            <label class="opt-label" for="qtyInput">Quantity</label>
+            <div class="qty-wrap">
+              <button class="qty-btn" id="qtyMinus" aria-label="Decrease quantity">−</button>
+              <input id="qtyInput" type="number" min="1" max="5" value="1" inputmode="numeric" />
+              <button class="qty-btn" id="qtyPlus" aria-label="Increase quantity">+</button>
+            </div>
+            <span class="stock" id="stockText">In stock</span>
+          </div>
+        </div>
+
+        <!-- Delivery -->
+        <div class="deliver">
+          <label for="pinInput">Check delivery</label>
+          <div class="pin-row">
+            <input id="pinInput" type="text" placeholder="Enter pincode" maxlength="6" inputmode="numeric" />
+            <button id="pinCheckBtn" class="btn">Check</button>
+          </div>
+          <p id="pinMsg" class="pin-msg" aria-live="polite"></p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-row">
+          <button id="addToCart" class="btn btn-primary">Add to cart</button>
+          <button id="buyNow" class="btn btn-ghost">Buy now</button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <div class="tablist" role="tablist" aria-label="Details">
+            <button class="tab is-active" role="tab" aria-selected="true" data-tab="details">Details</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="specs">Specs</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="shipping">Shipping</button>
+          </div>
+          <div class="tabpanel is-active" id="tab-details" role="tabpanel">
+            <ul class="bullets">
+              <li>Hybrid ANC up to 35dB with transparency mode</li>
+              <li>40mm neodymium drivers • AAC/aptX</li>
+              <li>45h battery life • USB-C fast charge</li>
+              <li>Multi-point pairing • Low-latency mode</li>
+            </ul>
+          </div>
+          <div class="tabpanel" id="tab-specs" role="tabpanel" hidden>
+            <table class="specs">
+              <tr><th>Driver</th><td>40 mm</td></tr>
+              <tr><th>Bluetooth</th><td>5.3 (AAC, aptX)</td></tr>
+              <tr><th>Weight</th><td>265 g</td></tr>
+              <tr><th>Charging</th><td>USB-C, 10 min = 5 h</td></tr>
+            </table>
+          </div>
+          <div class="tabpanel" id="tab-shipping" role="tabpanel" hidden>
+            <p>Standard delivery 2–5 days. Express options available at checkout. Free 7-day returns.</p>
+          </div>
+        </div>
+
+        <!-- Reviews -->
+        <details class="reviews">
+          <summary><strong>Ratings & Reviews</strong> <span class="muted">1,284</span></summary>
+          <div class="review-item">
+            <div class="review-head">
+              <span class="stars small" data-stars="5"></span>
+              <span class="muted">by Aditi • Verified</span>
+            </div>
+            <p>Excellent ANC and the fit is super comfy even after long calls.</p>
+          </div>
+          <div class="review-item">
+            <div class="review-head">
+              <span class="stars small" data-stars="4"></span>
+              <span class="muted">by Sameer</span>
+            </div>
+            <p>Deep bass, clean mids. Battery is legit — lasted all week.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky Add-To-Cart Bar -->
+  <aside class="sticky-bar" role="region" aria-label="Quick add to cart">
+    <div class="sticky-info">
+      <span class="truncate"><strong>Nimbus XT Wireless Headphones</strong> • <span id="stickyVariant">Black / S</span></span>
+      <span class="sticky-price" id="stickyPrice">₹7,999</span>
+    </div>
+    <div class="sticky-ctas">
+      <button class="btn btn-outline" id="stickyWish">♡</button>
+      <button class="btn btn-primary" id="stickyAdd">Add</button>
+    </div>
+  </aside>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
