@@ -1,0 +1,132 @@
+/* ========== Base / Reset ========== */
+* { box-sizing: border-box; }
+html:focus-within { scroll-behavior: smooth; }
+:root {
+  --bg: #0b0c10;           /* dark */
+  --surface: #111217;
+  --text: #e5e7eb;
+  --muted: #9aa3af;
+  --primary: #0a84ff;
+  --ring: rgba(10,132,255,.35);
+  --card: #0f1115;
+  --shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+:root.light {
+  --bg: #ffffff;           /* light */
+  --surface: #f6f7f9;
+  --text: #0b0c10;
+  --muted: #4b5563;
+  --primary: #0a84ff;
+  --ring: rgba(10,132,255,.25);
+  --card: #ffffff;
+  --shadow: 0 10px 30px rgba(2,6,23,.08);
+}
+
+
+body {
+  margin: 0; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 800px at 20% -10%, rgba(10,132,255,.08), transparent 50%),
+              radial-gradient(800px 600px at 100% 10%, rgba(99,102,241,.08), transparent 50%),
+              var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+img { max-width: 100%; display: block; border-radius: 12px; }
+.container { width: min(1100px, 90%); margin: 0 auto; }
+
+/* ========== Header ========== */
+.site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(1.2) blur(10px); background: color-mix(in oklab, var(--bg), transparent 70%); border-bottom: 1px solid color-mix(in oklab, var(--text), transparent 90%); }
+.nav { display: flex; align-items: center; justify-content: space-between; padding: .9rem 0; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--text); font-weight: 700; }
+.brand-badge { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(135deg, var(--primary), #7c3aed); color: #fff; font-weight: 800; letter-spacing: .5px; }
+.brand-text { letter-spacing: .4px; }
+
+.nav-links { list-style: none; display: flex; gap: .6rem; margin: 0; padding: 0; align-items: center; }
+.nav-link { padding: .55rem .9rem; border-radius: 999px; text-decoration: none; color: var(--text); opacity: .85; border: 1px solid transparent; }
+.nav-link:hover, .nav-link.active { opacity: 1; border-color: color-mix(in oklab, var(--text), transparent 88%); }
+
+.nav-toggle { display: none; width: 44px; height: 38px; border: 1px solid color-mix(in oklab, var(--text), transparent 85%); background: transparent; border-radius: 10px; gap: 4px; flex-direction: column; justify-content: center; align-items: center; }
+.nav-toggle span { width: 22px; height: 2px; background: var(--text); display: block; border-radius: 2px; }
+.theme-toggle { background: var(--card); border: 1px solid color-mix(in oklab, var(--text), transparent 85%); border-radius: 10px; padding: .45rem; cursor: pointer; }
+.icon { width: 20px; height: 20px; fill: currentColor; }
+
+/* ========== Hero ========== */
+.hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; padding: 4rem 0 3rem; }
+.eyebrow { text-transform: uppercase; letter-spacing: .2em; color: var(--muted); font-size: .85rem; margin: 0 0 .4rem; }
+.hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.15; margin: 0 0 .6rem; }
+.subtitle { font-size: 1.1rem; color: var(--muted); margin-bottom: 1.2rem; }
+.hero-actions { display: flex; gap: .8rem; }
+.btn { display: inline-block; border-radius: 12px; padding: .8rem 1.1rem; font-weight: 600; text-decoration: none; border: 1px solid color-mix(in oklab, var(--text), transparent 85%); color: var(--text); background: var(--card); box-shadow: var(--shadow); }
+.btn:hover { transform: translateY(-1px); }
+.btn.primary { background: linear-gradient(135deg, var(--primary), #7c3aed); border: none; color: #fff; }
+.btn.ghost { background: transparent; box-shadow: none; }
+.btn.small { padding: .45rem .7rem; font-size: .9rem; }
+
+.hero-art { position: relative; }
+.blob { position: absolute; inset: -10% -10% auto auto; width: 75%; height: 75%; filter: blur(35px); background: radial-gradient(closest-side, rgba(10,132,255,.35), transparent 70%), radial-gradient(closest-side, rgba(124,58,237,.35), transparent 70%); border-radius: 50%; z-index: -1; animation: float 8s ease-in-out infinite; }
+@keyframes float { 0%,100%{ transform: translateY(0)} 50%{ transform: translateY(-8px)} }
+
+/* ========== Sections ========== */
+.section { padding: 3.5rem 0; }
+.section.alt { background: var(--surface); }
+.section-head { display: grid; gap: .4rem; margin-bottom: 1.5rem; }
+.section-head h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin: 0; }
+.section-head p { color: var(--muted); margin: 0; }
+
+/* About */
+.about-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.about-card { background: var(--card); border: 1px solid color-mix(in oklab, var(--text), transparent 90%); border-radius: 16px; padding: 1.1rem; box-shadow: var(--shadow); }
+.checklist, .bullets { margin: .4rem 0 0; padding-left: 1.2rem; }
+.checklist li { margin: .35rem 0; }
+
+/* Skills */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.skill { background: var(--card); padding: 1rem; border-radius: 14px; border: 1px solid color-mix(in oklab, var(--text), transparent 90%); box-shadow: var(--shadow); }
+.skill-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; }
+.bar { height: 10px; background: color-mix(in oklab, var(--text), transparent 92%); border-radius: 999px; overflow: hidden; }
+.bar span { display: block; height: 100%; width: var(--w); background: linear-gradient(90deg, var(--primary), #22d3ee); border-radius: inherit; }
+
+/* Projects */
+.filters { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.chip { background: var(--card); border: 1px solid color-mix(in oklab, var(--text), transparent 88%); color: var(--text); padding: .45rem .75rem; border-radius: 999px; cursor: pointer; }
+.chip.active { background: linear-gradient(135deg, var(--primary), #7c3aed); color: #fff; border: none; }
+.grid.cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+.card { grid-column: span 6; background: var(--card); border: 1px solid color-mix(in oklab, var(--text), transparent 88%); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.card-body { padding: .9rem; display: grid; gap: .6rem; }
+.card h3 { margin: .2rem 0; }
+.tags { display: flex; gap: .4rem; flex-wrap: wrap; }
+.tags span { font-size: .8rem; background: color-mix(in oklab, var(--text), transparent 90%); padding: .22rem .5rem; border-radius: 999px; }
+.card-actions { display: flex; gap: .5rem; }
+
+/* Contact */
+.contact-form { background: var(--card); padding: 1.1rem; border-radius: 16px; border: 1px solid color-mix(in oklab, var(--text), transparent 88%); box-shadow: var(--shadow); max-width: 720px; }
+.form-row { display: grid; gap: .35rem; margin-bottom: .9rem; }
+label { font-weight: 600; }
+input, textarea { width: 100%; background: var(--surface); color: var(--text); border: 1px solid color-mix(in oklab, var(--text), transparent 85%); border-radius: 10px; padding: .75rem .8rem; outline: none; }
+input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--ring); }
+.error { color: #ef4444; min-height: 1em; }
+.form-note { color: var(--muted); font-size: .9rem; }
+
+/* Footer */
+.site-footer { border-top: 1px solid color-mix(in oklab, var(--text), transparent 90%); padding: 1.2rem 0; }
+.footer-grid { display: flex; align-items: center; justify-content: space-between; }
+.to-top { background: var(--card); border: 1px solid color-mix(in oklab, var(--text), transparent 85%); padding: .4rem .65rem; border-radius: 10px; color: var(--text); text-decoration: none; }
+
+/* Reveal Animations */
+[data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+[data-reveal].visible { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .grid.cards { grid-template-columns: repeat(6, 1fr); }
+  .card { grid-column: span 6; }
+}
+@media (max-width: 640px) {
+  .nav-toggle { display: inline-flex; }
+  .nav-links { position: absolute; right: 5%; top: 64px; background: var(--card); border: 1px solid color-mix(in oklab, var(--text), transparent 88%); border-radius: 14px; padding: .5rem; flex-direction: column; gap: .2rem; width: min(250px, 90%); display: none; }
+  .nav-links.open { display: grid; }
+  .skills-grid { grid-template-columns: 1fr; }
+}
