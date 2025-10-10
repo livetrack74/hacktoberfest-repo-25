@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat UI – Frontend Only</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar" aria-hidden="true"></div>
+      <div>
+        <div class="title">Demo Chat</div>
+        <div class="subtitle">Frontend-only · Emoji reactions</div>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages" id="messages" aria-live="polite"></div>
+
+    <!-- Composer -->
+    <form class="composer" id="composer">
+      <textarea id="input" placeholder="Type a message…" autocomplete="off"></textarea>
+      <button class="send" type="submit" title="Send (Ctrl+Enter)">Send ➤</button>
+    </form>
+  </div>
+
+  <!-- Global emoji picker (positioned near bubble on demand) -->
+  <div class="picker" id="picker" role="menu" aria-label="Reactions picker"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

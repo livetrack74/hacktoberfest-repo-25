@@ -1,0 +1,130 @@
+:root{
+  --bg:#0f172a;--panel:#111827;--panel-2:#0b1220;--text:#e5e7eb;--muted:#94a3b8;
+  --incoming:#1f2937;--outgoing:#0ea5e9;--outgoing-text:#05202b;--accent:#22d3ee;
+  --border:#1f2a44;--shadow:rgba(0,0,0,.3);--radius:18px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:radial-gradient(1200px 800px at 80% -10%,#0b2a3a 0%,var(--bg) 55%),
+             radial-gradient(800px 400px at 0% 100%,#0a1f2e 0%,var(--bg) 50%);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+  display:grid;place-items:center;padding:16px;
+}
+
+.app{
+  display:grid;grid-template-rows:auto 1fr auto;
+  width:min(950px,100%);height:min(90vh,920px);
+  background:linear-gradient(to bottom,rgba(255,255,255,.03) 0,rgba(255,255,255,.02) 100%),var(--panel);
+  border:1px solid var(--border);border-radius:22px;
+  box-shadow:0 20px 40px var(--shadow),inset 0 1px 0 rgba(255,255,255,.02);
+  overflow:hidden;
+}
+
+/* Header */
+.header{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;
+  background:linear-gradient(to right,rgba(34,211,238,.06),transparent 30%);
+  border-bottom:1px solid var(--border);
+}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#0ea5e9)}
+.title{font-weight:700;letter-spacing:.2px}
+.subtitle{color:var(--muted);font-size:12px}
+
+/* Message list */
+.messages{padding:18px 16px 10px;overflow-y:auto;scrollbar-gutter:stable both-edges}
+.messages::-webkit-scrollbar{width:10px}
+.messages::-webkit-scrollbar-thumb{background:#1f2a44;border-radius:99px}
+
+.row {
+  margin: 2px 0;
+  align-items: start;
+}
+
+.row.incoming{justify-items:start}
+.row.outgoing{justify-items:end}
+
+/* shrink bubble height to fit text */
+.bubble {
+  display: inline-block;
+  width: auto;
+  padding: 6px 10px 8px;
+  line-height: 1.2;
+  vertical-align: top;
+}
+
+.incoming .bubble,
+.outgoing .bubble {
+  margin: 2px 0;
+}
+.meta {
+  margin-top: 2px;
+  line-height: 1;
+}
+
+/* Reactions */
+.reactions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.reactions:empty {
+  margin-top: 0;
+  display: none;
+}
+.reaction{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:2px 8px;font-size:12px;border-radius:999px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);
+  cursor:pointer;user-select:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.outgoing .reaction{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.12)}
+
+.bubble-actions{position:absolute;right:8px;bottom:-12px;display:flex;gap:6px}
+.btn{
+  appearance:none;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);
+  padding:6px 8px;border-radius:10px;cursor:pointer;font-size:13px;backdrop-filter:blur(8px);
+}
+.btn:hover{border-color:rgba(255,255,255,.25)}
+
+.picker{
+  position:absolute;z-index:40;display:none;background:var(--panel-2);
+  border:1px solid var(--border);border-radius:14px;padding:8px;
+  box-shadow:0 14px 30px var(--shadow);user-select:none;
+}
+.picker.visible{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.picker button{
+  font-size:20px;line-height:1;padding:6px;border-radius:10px;cursor:pointer;
+  background:transparent;border:1px solid transparent;
+}
+.picker button:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+
+/* Composer */
+.composer{
+  display:grid;grid-template-columns:1fr auto;gap:10px;
+  padding:12px;border-top:1px solid var(--border);
+  background:linear-gradient(to top,rgba(255,255,255,.02),transparent);
+}
+textarea{
+  width:100%;resize:none;min-height:44px;max-height:150px;
+  padding:12px 14px;border-radius:14px;border:1px solid var(--border);
+  background:rgba(15,23,42,.8);color:var(--text);font-size:14px;line-height:1.25;
+  outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.send{
+  padding:0 18px;border-radius:14px;border:1px solid var(--border);
+  background:linear-gradient(135deg,#22d3ee,#0ea5e9);
+  color:#05202b;font-weight:700;letter-spacing:.2px;cursor:pointer;
+}
+
+/* Small screens */
+@media (max-width:560px){
+  .app{height:92vh}
+  .bubble{max-width:95%}
+  .picker.visible{grid-template-columns:repeat(6,1fr)}
+}
