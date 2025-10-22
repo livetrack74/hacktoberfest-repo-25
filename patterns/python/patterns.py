@@ -30,6 +30,26 @@ def pascals(n):
         print(" ".join(map(str, row)).center(2*n))
         row = [1] + [row[i]+row[i+1] for i in range(len(row)-1)] + [1]
 
+def hourglass(n):
+    
+    # Top half (inverted pyramid)
+    for i in range(n, 0, -1):
+        print(" " * (n - i) + "*" * (2*i - 1))
+    # Bottom half (pyramid)
+    for i in range(2, n+1):
+        print(" " * (n - i) + "*" * (2*i - 1))
+
+def zigzag(n):
+    
+    height = 4  
+    for i in range(n):
+        for j in range(height):
+            if j == 0 or j == height - 1:
+                print("*" * n)
+            else:
+                spaces = " " * (n - i - 1)
+                print(spaces + "*")
+
 def main():
     args = sys.argv[1:]
     pattern = args[0] if len(args) >= 1 else "pyramid"
@@ -40,7 +60,9 @@ def main():
         "inverted": inverted,
         "diamond": diamond,
         "hollow_pyramid": hollow_pyramid,
-        "pascals": pascals
+        "pascals": pascals,
+        "hourglass": hourglass,
+        "zigzag": zigzag,
     }
     if pattern not in funcs:
         print("Unknown pattern. Choose from:", ", ".join(funcs.keys()))
