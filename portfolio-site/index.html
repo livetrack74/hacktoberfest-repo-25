@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Ccircle cx='128' cy='128' r='120' fill='%230a84ff'/%3E%3Cpath d='M76 144l40 40 64-96' fill='none' stroke='white' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
 </head>
 <body>
@@ -48,17 +49,12 @@
         <a href="#projects" class="btn primary">View Projects</a>
         <a href="#contact" class="btn ghost">Contact Me</a>
       </div>
-      <ul class="hero-social" aria-label="Social links">
-        <li><a href="#" aria-label="GitHub" class="social">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.23 3.38 9.66 8.08 11.23.59.1.8-.26.8-.57l-.02-2.02c-3.28.73-3.97-1.42-3.97-1.42-.54-1.39-1.33-1.76-1.33-1.76-1.09-.77.08-.75.08-.75 1.2.09 1.83 1.25 1.83 1.25 1.07 1.89 2.8 1.35 3.48 1.03.11-.78.42-1.35.76-1.66-2.62-.3-5.37-1.34-5.37-5.97 0-1.32.47-2.4 1.24-3.25-.12-.3-.54-1.52.12-3.16 0 0 1.01-.33 3.3 1.24a11.1 11.1 0 0 1 6 0c2.28-1.57 3.29-1.24 3.29-1.24.67 1.64.25 2.86.12 3.16.77.85 1.24 1.93 1.24 3.25 0 4.64-2.76 5.66-5.39 5.96.43.37.81 1.1.81 2.22l-.01 3.29c0 .31.21.67.81.56A11.54 11.54 0 0 0 23.5 12.3 11.5 11.5 0 0 0 12 .5Z"/></svg>
-        </a></li>
-        <li><a href="#" aria-label="LinkedIn" class="social">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 5.96H2V22h3V9.46ZM9 9.46H6v12.5h3V16c0-1.6.3-3.2 2.33-3.2C13.3 12.8 13 14.8 13 16v5.96h3V15.5c0-3.2-.69-5.5-4.04-5.5-1.64 0-2.46.9-2.96 1.73h-.04V9.46Z"/></svg>
-        </a></li>
-        <li><a href="#" aria-label="Twitter" class="social">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 5.8c-.7.3-1.5.5-2.3.6a4 4 0 0 0 1.8-2.2c-.8.5-1.6.8-2.6 1A4 4 0 0 0 12 8.7a11.2 11.2 0 0 1-8.1-4.1c-.9 1.6-.2 3.6 1.3 4.6-.6 0-1.2-.2-1.7-.5 0 2 1.4 3.7 3.3 4.1-.5.1-1 .2-1.6.1.5 1.7 2.1 3 4 3.1A8.1 8.1 0 0 1 2 18.3 11.5 11.5 0 0 0 8.3 20c7 0 10.9-5.9 10.9-11 0-.2 0-.3 0-.5A7.8 7.8 0 0 0 22 5.8Z"/></svg>
-        </a></li>
-      </ul>
+     <div class="social-links">
+        <a href="https://github.com/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+     </div>
+
     </div>
     <div class="hero-art" data-reveal>
       <div class="blob" aria-hidden="true"></div>
@@ -94,53 +90,76 @@
     </div>
   </section>
 
-  <!-- ========== Skills ========== -->
-  <section class="section alt" id="skills">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <h2>Skills</h2>
-        <p>Toolbox I use daily.</p>
+  <!-- ========== Skills Section ========== -->
+<section class="skills container" id="skills">
+  <h2>Skills</h2>
+  <p>Toolbox I use daily.</p>
+
+  <div class="skills-grid">
+
+    <div class="skill">
+      <div class="skill-header">
+        <span>Flutter</span>
+        <span class="skill-percent">0%</span>
       </div>
-      <div class="skills-grid">
-        <div class="skill" data-reveal>
-          <div class="skill-top">
-            <span>Flutter</span><span>90%</span>
-          </div>
-          <div class="bar"><span style="--w:90%"></span></div>
-        </div>
-        <div class="skill" data-reveal>
-          <div class="skill-top">
-            <span>React</span><span>85%</span>
-          </div>
-          <div class="bar"><span style="--w:85%"></span></div>
-        </div>
-        <div class="skill" data-reveal>
-          <div class="skill-top">
-            <span>Node/Express</span><span>80%</span>
-          </div>
-          <div class="bar"><span style="--w:80%"></span></div>
-        </div>
-        <div class="skill" data-reveal>
-          <div class="skill-top">
-            <span>Firebase</span><span>80%</span>
-          </div>
-          <div class="bar"><span style="--w:80%"></span></div>
-        </div>
-        <div class="skill" data-reveal>
-          <div class="skill-top">
-            <span>Maps APIs</span><span>85%</span>
-          </div>
-          <div class="bar"><span style="--w:85%"></span></div>
-        </div>
-        <div class="skill" data-reveal>
-          <div class="skill-top">
-            <span>UI/UX</span><span>88%</span>
-          </div>
-          <div class="bar"><span style="--w:88%"></span></div>
-        </div>
+      <div class="skill-bar">
+        <div class="skill-bar-fill" data-percent="90"></div>
       </div>
     </div>
-  </section>
+
+    <div class="skill">
+      <div class="skill-header">
+        <span>React</span>
+        <span class="skill-percent">0%</span>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-bar-fill" data-percent="85"></div>
+      </div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <span>Node/Express</span>
+        <span class="skill-percent">0%</span>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-bar-fill" data-percent="80"></div>
+      </div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <span>Firebase</span>
+        <span class="skill-percent">0%</span>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-bar-fill" data-percent="80"></div>
+      </div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <span>Maps APIs</span>
+        <span class="skill-percent">0%</span>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-bar-fill" data-percent="85"></div>
+      </div>
+    </div>
+
+    <div class="skill">
+      <div class="skill-header">
+        <span>UI/UX</span>
+        <span class="skill-percent">0%</span>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-bar-fill" data-percent="88"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
   <!-- ========== Projects ========== -->
   <section class="section container" id="projects">
@@ -254,5 +273,53 @@
   </footer>
 
   <script src="script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const skillsSection = document.querySelector(".skills");
+  const skills = document.querySelectorAll(".skill-bar-fill");
+  let hasAnimated = false;
+
+  const animateSkills = () => {
+    if (hasAnimated) return; // Prevent re-trigger
+    hasAnimated = true;
+
+    skills.forEach(bar => {
+      const target = parseInt(bar.getAttribute("data-percent"));
+      const percentText = bar.parentElement.previousElementSibling.querySelector(".skill-percent");
+
+      // Animate bar width
+      setTimeout(() => {
+        bar.style.width = target + "%";
+      }, 200);
+
+      // Animate number counting
+      let count = 0;
+      const interval = setInterval(() => {
+        if (count < target) {
+          count++;
+          percentText.textContent = count + "%";
+        } else {
+          clearInterval(interval);
+        }
+      }, 25);
+    });
+  };
+
+  // Use IntersectionObserver for scroll detection
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateSkills();
+          observer.unobserve(skillsSection); // Stop observing after animation
+        }
+      });
+    },
+    { threshold: 0.3 } // Trigger when 30% of section is visible
+  );
+
+  observer.observe(skillsSection);
+});
+</script>
 </body>
 </html>
