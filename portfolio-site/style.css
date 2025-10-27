@@ -130,3 +130,93 @@ input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4p
   .nav-links.open { display: grid; }
   .skills-grid { grid-template-columns: 1fr; }
 }
+/* ===== Social Links (Hero Section) ===== */
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.social-links a {
+  color: #dcdcdc; /* off-white */
+  font-size: 1.5rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.social-links a:hover {
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+.social-links a:focus {
+  outline: none;
+  color: #ffffff;
+}
+
+/* ===== Skill Bar Animation ===== */
+.bar span {
+  display: block;
+  height: 100%;
+  width: 0; /* start at 0 */
+  background: linear-gradient(90deg, var(--primary), #22d3ee);
+  border-radius: inherit;
+  transition: width 1.6s ease-out;
+}
+.bar.animate span {
+  width: var(--w);
+}
+
+/* === Animated Skill Bars === */
+/* === Skills Section === */
+.skills {
+  margin-top: 80px;
+}
+
+.skills h2 {
+  font-size: 2rem;
+  color: #f1f1f1;
+  margin-bottom: 0.5rem;
+}
+
+.skills p {
+  color: #aaa;
+  margin-bottom: 2rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill {
+  background: #141414;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f1f1f1;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.skill-bar {
+  height: 8px;
+  background: #222;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #00bfff, #007bff);
+  border-radius: 6px;
+  transition: width 2s ease-in-out;
+}
