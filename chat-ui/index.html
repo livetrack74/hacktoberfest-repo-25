@@ -3,33 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chat UI – Frontend Only</title>
+  <title>Demo Chat – Frontend Only</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4ac.svg"> -->
 </head>
 <body>
+  <!-- Text moved up, layout untouched -->
   <div class="app" id="app">
-    <!-- Header -->
     <div class="header">
-      <div class="avatar" aria-hidden="true"></div>
+        <div class="avatar" aria-hidden="true"><span id="avatarEmoji"></span></div>
       <div>
         <div class="title">Demo Chat</div>
         <div class="subtitle">Frontend-only · Emoji reactions</div>
       </div>
+        <button class="info-btn" id="infoBtn" title="Show available commands">ℹ️</button>
     </div>
 
-    <!-- Messages -->
-    <div class="messages" id="messages" aria-live="polite"></div>
+<div class="messages" id="messages" aria-live="polite"></div>
 
-    <!-- Composer -->
-    <form class="composer" id="composer">
-      <textarea id="input" placeholder="Type a message…" autocomplete="off"></textarea>
-      <button class="send" type="submit" title="Send (Ctrl+Enter)">Send ➤</button>
-    </form>
+<form class="composer" id="composer">
+  <textarea id="input" placeholder="Type a message…" autocomplete="off"></textarea>
+  <button class="send" type="submit" title="Send (Ctrl+Enter)">Send ➤</button>
+</form>
+
+<div class="info-panel" id="infoPanel">
+  <h4>Available Commands</h4>
+  <ul>
+    <li><b>hello / hi</b> → friendly greeting</li>
+    <li><b>time</b> → shows current time</li>
+    <li><b>weather</b> → a mock weather reply</li>
+    <li><b>joke</b> → tells a random dev joke</li>
+    <li><b>help</b> → lists these commands</li>
+  </ul>
+</div>
   </div>
-
-  <!-- Global emoji picker (positioned near bubble on demand) -->
   <div class="picker" id="picker" role="menu" aria-label="Reactions picker"></div>
-
   <script src="app.js"></script>
 </body>
 </html>
