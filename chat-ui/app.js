@@ -26,22 +26,37 @@ function createMessage(text, type = 'incoming') {
   };
 }
 
+function getAvatarHTML(type) {
+  if (type === 'incoming') {
+    // Echo / Robot avatar
+    return `<div class="avatar bot-avatar">🤖</div>`;
+  } else {
+    // You / Profile avatar
+    return `<div class="avatar user-avatar">🧑‍💻</div>`;
+  }
+}
+
 function formatTime(date) {
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 function renderAll() {
+  const atBottom =
+    MESSAGES_EL.scrollHeight - MESSAGES_EL.scrollTop - MESSAGES_EL.clientHeight < 50;
+
   MESSAGES_EL.innerHTML = '';
   messages.forEach(m => {
     const row = document.createElement('div');
     row.className = `row ${m.type}`;
+    row.innerHTML = getAvatarHTML(m.type);
+
+    // row.appendChild(bubble);
 
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
     bubble.dataset.id = m.id;
     bubble.tabIndex = 0;
 
-    // Build reactions only if present
     const reactionsHTML = renderReactions(m);
     const reactionsBlock = reactionsHTML ? `<div class="reactions">${reactionsHTML}</div>` : '';
 
@@ -59,7 +74,11 @@ function renderAll() {
     row.appendChild(bubble);
     MESSAGES_EL.appendChild(row);
   });
-  MESSAGES_EL.scrollTop = MESSAGES_EL.scrollHeight;
+
+  // auto-scroll only if user was near bottom
+  if (atBottom) {
+    MESSAGES_EL.scrollTop = MESSAGES_EL.scrollHeight;
+  }
 }
 
 function renderReactions(m) {
@@ -159,7 +178,8 @@ COMPOSER.addEventListener('submit', (e) => {
   renderAll();
   // Demo: fake reply
   setTimeout(() => {
-    messages.push(createMessage('Echo: ' + text, 'incoming'));
+    const reply = getBotReply(text);
+    messages.push(createMessage('Echo: ' + reply, 'incoming'));
     renderAll();
   }, 500);
 });
@@ -171,6 +191,85 @@ INPUT.addEventListener('keydown', (e) => {
   }
 });
 
+function getBotReply(input) {
+  const msg = input.toLowerCase().trim();
+
+  if (msg.includes('hello') || msg.includes('hi')) return "Hey there 👋";
+  if (msg.includes('time')) return `It's ${new Date().toLocaleTimeString()}`;
+  if (msg.includes('weather')) return "I'm not connected to the internet, but it's always sunny in this app ☀️";
+  if (msg.includes('help')) return "Try saying: 'hello', 'time', 'weather', or 'joke'.";
+  
+const jokes = [
+  "Why did the web developer leave the restaurant? Because of the table layout.",
+  "404: Joke not found.",
+  "I would tell you a UDP joke, but you might not get it.",
+  "There are only 10 types of people in the world: those who understand binary and those who don’t.",
+  "A SQL query walks into a bar, walks up to two tables and asks, 'Can I join you?'",
+  "Why do programmers prefer dark mode? Because light attracts bugs.",
+  "To understand what recursion is, you must first understand recursion.",
+  "How many programmers does it take to change a light bulb? None, that’s a hardware problem.",
+  "Real programmers count from 0.",
+  "Git commit -m 'fixed the thing that I broke yesterday'",
+  "My code doesn’t always work, but when it does, I don’t know why.",
+  "Knock knock. Who’s there? *very long pause* ... Java.",
+  "Why was the developer broke? Because he used up all his cache.",
+  "Debugging: Being the detective in a crime movie where you are also the murderer.",
+  "I told my computer I needed a break, and it said it couldn’t handle that request.",
+  "I’d tell you a JavaScript closure joke, but it’s inside another function.",
+  "Why did the programmer quit his job? He didn’t get arrays.",
+  "A CSS developer walks into a bar, but it’s already styled.",
+  "My boss told me to have a good day — so I went home.",
+  "Computers make very fast, very accurate mistakes."
+];
+
+  if (msg.includes('joke')) return jokes[Math.floor(Math.random() * jokes.length)];
+
+  // fallback: echo the message
+  return "Echo: " + input;
+}
+
 // Boot
 buildPicker();
 renderAll();
+
+// Info button toggle
+const infoBtn = document.getElementById('infoBtn');
+const infoPanel = document.getElementById('infoPanel');
+infoBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const rect = infoBtn.getBoundingClientRect();
+
+  // Position bubble slightly below and centered to the info button
+  infoPanel.style.left = `${rect.left + rect.width / 2 - infoPanel.offsetWidth / 2}px`;
+  infoPanel.style.top = `${rect.bottom + 8}px`;
+
+  infoPanel.classList.toggle('visible');
+});
+
+document.addEventListener('click', (e) => {
+  if (!infoBtn.contains(e.target) && !infoPanel.contains(e.target)) {
+    infoPanel.classList.remove('visible');
+  }
+});
+
+// Set random emoji avatar
+const avatarEl = document.getElementById('avatarEmoji');
+if (avatarEl) {
+  const randomEmoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+  avatarEl.textContent = randomEmoji;
+
+  // Generate favicon with same emoji
+  const canvas = document.createElement('canvas');
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.font = '48px serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(randomEmoji, 32, 38);
+
+  const favicon = document.createElement('link');
+  favicon.rel = 'icon';
+  favicon.href = canvas.toDataURL();
+  document.head.appendChild(favicon);
+}
