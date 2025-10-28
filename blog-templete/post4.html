@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>From Docker to OCI images — TechBytes</title>
+  <meta name="description" content="Move your images to OCI-compliant layouts and keep your pipelines sane." />
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='1.5'%3E%3Cpath d='M4 7l8-4 8 4v10l-8 4-8-4z'/%3E%3Cpath d='M12 3v18'/%3E%3C/svg%3E">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <span class="logo">⌁</span>
+        <span class="brand-text">TechBytes</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="index.html#latest" class="nav-link">Latest</a>
+        <a href="index.html#topics" class="nav-link">Topics</a>
+        <a href="index.html#about" class="nav-link">About</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme" aria-label="Toggle theme"><span class="icon">🌗</span></button>
+        <button id="menuToggle" class="icon-btn hide-desktop" aria-label="Toggle menu"><span class="icon">☰</span></button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <a href="index.html#latest" class="mobile-link">Latest</a>
+      <a href="index.html#topics" class="mobile-link">Topics</a>
+      <a href="index.html#about" class="mobile-link">About</a>
+    </div>
+  </header>
+
+  <!-- Article Header / Hero -->
+  <section class="hero" style="padding:36px 0;">
+    <div class="container">
+      <nav style="font-size:.95rem; color:var(--muted); margin-bottom:10px">
+        <a href="index.html" class="nav-link" style="padding:0">Home</a> ·
+        <a href="index.html#latest" class="nav-link" style="padding:0">Articles</a> ·
+        <span>From Docker to OCI images</span>
+      </nav>
+
+      <h1 style="margin:0 0 8px">From Docker to OCI images: a practical migration</h1>
+      <p style="color:var(--muted); margin:0 0 14px">
+        Move your images to OCI-compliant layouts and keep your pipelines sane.
+      </p>
+
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+        <a href="author.html" class="chip-link" aria-label="View author">By Alex Kumar</a>
+        <span class="chip-link" aria-label="Publish date"><time datetime="2025-06-16">Jun 16, 2025</time></span>
+        <span class="chip-link">Cloud</span>
+        <span class="chip-link">Containers</span>
+        <span class="chip-link">8 min read</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Article Body -->
+  <main class="container" style="padding:24px 0 0">
+    <article class="card" style="overflow:visible">
+      <img class="card-media" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1600&auto=format&fit=crop" alt="Server racks and containers visual" />
+      <div class="card-body" style="font-size:1.02rem">
+        <h2>Why OCI matters</h2>
+        <p>
+          The <strong>Open Container Initiative (OCI)</strong> standardizes image formats and runtimes so containers can be
+          built, shared, and run anywhere—without vendor lock-in. Migrating to OCI ensures long-term compatibility with
+          modern registries and orchestrators like Kubernetes.
+        </p>
+
+        <h3>Docker vs OCI layout</h3>
+        <p>
+          Docker image manifests were historically proprietary, with layered JSON structures that didn’t conform to OCI’s
+          strict specification. OCI images, however, store content as digest-addressed blobs and define a clear schema for
+          configuration and layers.
+        </p>
+
+        <pre style="white-space:pre-wrap; background:var(--panel); border:1px solid var(--border); padding:12px; border-radius:12px; overflow:auto"><code># Docker image structure
+manifest.json
+├── config.json
+└── layer.tar
+
+# OCI layout
+blobs/
+├── sha256:...
+index.json
+oci-layout</code></pre>
+
+        <h3>How to migrate</h3>
+        <ol>
+          <li>Use <code>docker buildx build --output=type=oci</code> to export directly as OCI.</li>
+          <li>Convert existing images using <code>skopeo copy docker://... oci:...</code>.</li>
+          <li>Push to an OCI-compliant registry like GHCR or Harbor.</li>
+        </ol>
+
+        <h3>Benefits</h3>
+        <ul>
+          <li>Interoperability across multiple runtimes (containerd, Podman, etc.).</li>
+          <li>Immutable content-addressed layers → safer caching.</li>
+          <li>Standardized metadata schema → easier automation and signing.</li>
+        </ul>
+
+        <h3>Example: converting an image</h3>
+        <pre style="white-space:pre-wrap; background:var(--panel); border:1px solid var(--border); padding:12px; border-radius:12px; overflow:auto"><code># Convert and inspect OCI image
+skopeo copy docker://nginx:latest oci:nginx-oci:latest
+ls nginx-oci/
+cat nginx-oci/index.json | jq</code></pre>
+
+        <h3>Final thoughts</h3>
+        <p>
+          Moving to OCI images isn’t just about compliance—it’s about reliability and future-proofing. Your CI/CD pipelines
+          become cleaner, and you eliminate hidden dependencies tied to Docker’s proprietary layers.
+        </p>
+
+        <!-- Share / CTA -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:20px">
+          <a class="chip-link" href="index.html#latest">← Back to articles</a>
+          <a class="chip-link" href="#comments">💬 Comments</a>
+          <button class="chip-link" onclick="navigator.clipboard.writeText(location.href)">🔗 Copy link</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Related Posts -->
+    <section style="margin:22px 0 8px">
+      <div class="section-head">
+        <h2>Related posts</h2>
+        <a class="link" href="index.html#latest">View all →</a>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <a href="post3.html" class="card-media" aria-label="Read: Core Web Vitals in 2025">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Laptop performance metrics">
+          </a>
+          <div class="card-body">
+            <div class="card-meta"><span>Web</span> · <time datetime="2025-07-05">Jul 5, 2025</time></div>
+            <h3 class="card-title"><a href="post3.html">Core Web Vitals in 2025</a></h3>
+            <div class="card-footer"><span class="read-time">6 min read</span><a class="read-more" href="post3.html">Read →</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <a href="post.html" class="card-media" aria-label="Read: Tiny RAG System">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop" alt="AI abstract graphic">
+          </a>
+          <div class="card-body">
+            <div class="card-meta"><span>AI</span> · <time datetime="2025-09-12">Sep 12, 2025</time></div>
+            <h3 class="card-title"><a href="post.html">Build a tiny RAG system with embeddings</a></h3>
+            <div class="card-footer"><span class="read-time">7 min read</span><a class="read-more" href="post.html">Read →</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Comments -->
+    <section id="comments" class="topics" style="padding-bottom:34px">
+      <div class="section-head"><h2>Comments</h2></div>
+      <div class="card">
+        <div class="card-body">
+          <p style="color:var(--muted); margin:0">Plug your favorite comments widget here (Disqus, Giscus, etc.).</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> TechBytes.</p>
+      <a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
