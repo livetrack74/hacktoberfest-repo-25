@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clustering Thousands of Markers in Flutter Maps — TechBytes</title>
+  <meta name="description" content="Learn how to efficiently render and manage large sets of map markers in Flutter using clustering techniques for better performance." />
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='1.5'%3E%3Cpath d='M4 7l8-4 8 4v10l-8 4-8-4z'/%3E%3Cpath d='M12 3v18'/%3E%3C/svg%3E">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <span class="logo">⌁</span>
+        <span class="brand-text">TechBytes</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="index.html#latest" class="nav-link">Latest</a>
+        <a href="index.html#topics" class="nav-link">Topics</a>
+        <a href="index.html#about" class="nav-link">About</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme" aria-label="Toggle theme"><span class="icon">🌗</span></button>
+        <button id="menuToggle" class="icon-btn hide-desktop" aria-label="Toggle menu"><span class="icon">☰</span></button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <a href="index.html#latest" class="mobile-link">Latest</a>
+      <a href="index.html#topics" class="mobile-link">Topics</a>
+      <a href="index.html#about" class="mobile-link">About</a>
+    </div>
+  </header>
+
+  <!-- Article Header / Hero -->
+  <section class="hero" style="padding:36px 0;">
+    <div class="container">
+      <nav style="font-size:.95rem; color:var(--muted); margin-bottom:10px">
+        <a href="index.html" class="nav-link" style="padding:0">Home</a> ·
+        <a href="index.html#latest" class="nav-link" style="padding:0">Articles</a> ·
+        <span>Clustering Thousands of Markers in Flutter Maps</span>
+      </nav>
+
+      <h1 style="margin:0 0 8px">Clustering Thousands of Markers in Flutter Maps</h1>
+      <p style="color:var(--muted); margin:0 0 14px">
+        Learn how to efficiently render and manage large sets of map markers in Flutter using smart clustering techniques.
+      </p>
+
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+        <a href="author.html" class="chip-link" aria-label="View author">By Alex Kumar</a>
+        <span class="chip-link" aria-label="Publish date"><time datetime="2025-09-22">Sep 22, 2025</time></span>
+        <span class="chip-link">Flutter</span>
+        <span class="chip-link">Maps</span>
+        <span class="chip-link">5 min read</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Article Body -->
+  <main class="container" style="padding:24px 0 0">
+    <article class="card" style="overflow:visible">
+        <img class="card-media" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt="Code on screen" loading="lazy" />
+      <div class="card-body" style="font-size:1.02rem">
+        <h2>Overview</h2>
+        <p>
+          When displaying thousands of markers on a map in Flutter, performance quickly becomes a bottleneck.
+          Without optimization, every marker widget gets rendered individually — drastically slowing down rendering and interaction.
+          Marker clustering solves this by grouping nearby markers into cluster icons, which expand as users zoom in.
+        </p>
+
+        <h3>Why Clustering Matters</h3>
+        <p>
+          Rendering 10,000+ markers in a Flutter map (Google Maps or flutter_map) leads to heavy UI lag and frame drops.
+          Clustering helps by minimizing the number of visible elements while keeping context intuitive.
+        </p>
+
+        <h3>Approach: Using <code>flutter_map_marker_cluster</code></h3>
+        <p>
+          The <code>flutter_map_marker_cluster</code> package is a simple and efficient way to implement clustering without rebuilding your map logic.
+        </p>
+
+        <pre style="white-space:pre-wrap; background:var(--panel); border:1px solid var(--border); padding:12px; border-radius:12px; overflow:auto"><code class="language-dart">
+// Example with flutter_map_marker_cluster
+
+FlutterMap(
+  options: MapOptions(
+    center: LatLng(20.5937, 78.9629),
+    zoom: 5,
+  ),
+  layers: [
+    MarkerClusterLayerOptions(
+      maxClusterRadius: 120,
+      size: Size(40, 40),
+      markers: markers,
+      builder: (context, markers) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.blueAccent,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text('${markers.length}', style: TextStyle(color: Colors.white)),
+          ),
+        );
+      },
+    ),
+  ],
+);
+</code></pre>
+
+        <h3>Performance Tips</h3>
+        <ul>
+          <li>Use <code>const</code> widgets wherever possible to reduce rebuild cost.</li>
+          <li>Update only visible markers using bounds or viewport filtering.</li>
+          <li>Throttle map event listeners to avoid frequent redraws.</li>
+          <li>Use vector icons or lightweight assets for markers.</li>
+        </ul>
+
+        <h3>Alternative: Google Maps Clustering</h3>
+        <p>
+          If using <code>google_maps_flutter</code>, you can implement clustering manually by grouping coordinates
+          and rendering a single marker per cluster group, or by using community plugins like
+          <code>google_maps_flutter_heatmap</code>.
+        </p>
+
+        <h3>Conclusion</h3>
+        <p>
+          Clustering is an essential optimization when dealing with high-volume geospatial data in Flutter.
+          It not only enhances performance but also improves user experience by keeping the map visually clean and interactive.
+        </p>
+
+        <!-- Share / CTA -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:20px">
+          <a class="chip-link" href="index.html#latest">← Back to articles</a>
+          <a class="chip-link" href="#comments">💬 Comments</a>
+          <button class="chip-link" onclick="navigator.clipboard.writeText(location.href)">🔗 Copy link</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Related Posts -->
+    <section style="margin:22px 0 8px">
+      <div class="section-head">
+        <h2>Related posts</h2>
+        <a class="link" href="index.html#latest">View all →</a>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <a href="post.html" class="card-media" aria-label="Read: Build a Tiny RAG System">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop" alt="AI system visual">
+          </a>
+          <div class="card-body">
+            <div class="card-meta"><span>AI</span> · <time datetime="2025-09-12">Sep 12, 2025</time></div>
+            <h3 class="card-title"><a href="post.html">Build a Tiny RAG System</a></h3>
+            <div class="card-footer"><span class="read-time">7 min read</span><a class="read-more" href="post.html">Read →</a></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <a href="post.html" class="card-media" aria-label="Read: Core Web Vitals">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Laptop desk visual">
+          </a>
+          <div class="card-body">
+            <div class="card-meta"><span>Web</span> · <time datetime="2025-07-05">Jul 5, 2025</time></div>
+            <h3 class="card-title"><a href="post.html">Core Web Vitals in 2025</a></h3>
+            <div class="card-footer"><span class="read-time">6 min read</span><a class="read-more" href="post.html">Read →</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Comments (static placeholder) -->
+    <section id="comments" class="topics" style="padding-bottom:34px">
+      <div class="section-head"><h2>Comments</h2></div>
+      <div class="card">
+        <div class="card-body">
+          <p style="color:var(--muted); margin:0">Add your preferred comments widget here (e.g., Disqus, Giscus, or custom form).</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> TechBytes.</p>
+      <a href="#top" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
