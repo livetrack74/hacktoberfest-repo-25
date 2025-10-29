@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper Lite</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #1c1c1c;
+      color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+```
+h1 {
+  margin-bottom: 10px;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(8, 40px);
+  grid-template-rows: repeat(8, 40px);
+  gap: 3px;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 5px;
+  user-select: none;
+  transition: 0.2s;
+}
+
+.cell:hover {
+  background: #444;
+}
+
+.revealed {
+  background: #555;
+  cursor: default;
+}
+
+.mine {
+  background: crimson;
+  color: #fff;
+}
+
+.flag {
+  color: gold;
+}
+
+#status {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+#restart {
+  margin-top: 15px;
+  background: #3498db;
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#restart:hover {
+  background: #2980b9;
+}
+```
+
+  </style>
+</head>
+<body>
+  <h1>Minesweeper Lite</h1>
+  <div id="grid"></div>
+  <div id="status"></div>
+  <button id="restart">Restart</button>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const statusText = document.getElementById('status');
+    const restartBtn = document.getElementById('restart');
+
+    const size = 8;
+    const mineCount = 10;
+    let cells = [];
+    let gameOver = false;
+
+    function createGrid() {
+      grid.innerHTML = '';
+      cells = [];
+      gameOver = false;
+      statusText.textContent = '';
+
+      for (let i = 0; i < size * size; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        grid.appendChild(cell);
+        cells.push({ element: cell, mine: false, revealed: false, flagged: false });
+      }
+
+      // Place mines
+      let placed = 0;
+      while (placed < mineCount) {
+        let index = Math.floor(Math.random() * cells.length);
+        if (!cells[index].mine) {
+          cells[index].mine = true;
+          placed++;
+        }
+      }
+
+      // Event listeners
+      grid.addEventListener('click', handleClick);
+      grid.addEventListener('contextmenu', handleRightClick);
+    }
+
+    function getNeighbors(index) {
+      const neighbors = [];
+      const row = Math.floor(index / size);
+      const col = index % size;
+
+      for (let r = -1; r <= 1; r++) {
+        for (let c = -1; c <= 1; c++) {
+          if (r === 0 && c === 0) continue;
+          const newRow = row + r;
+          const newCol = col + c;
+          if (newRow >= 0 && newRow < size && newCol >= 0 && newCol < size) {
+            neighbors.push(newRow * size + newCol);
+          }
+        }
+      }
+      return neighbors;
+    }
+
+    function revealCell(index) {
+      const cell = cells[index];
+      if (cell.revealed || cell.flagged) return;
+      cell.revealed = true;
+      cell.element.classList.add('revealed');
+
+      if (cell.mine) {
+        cell.element.classList.add('mine');
+        cell.element.textContent = '💣';
+        endGame(false);
+        return;
+      }
+
+      const neighbors = getNeighbors(index);
+      const mineCount = neighbors.filter(i => cells[i].mine).length;
+      if (mineCount > 0) {
+        cell.element.textContent = mineCount;
+        cell.element.style.color = ['#0f0', '#0ff', '#ff0', '#f90', '#f00'][mineCount - 1] || '#fff';
+      } else {
+        neighbors.forEach(n => revealCell(n));
+      }
+
+      checkWin();
+    }
+
+    function handleClick(e) {
+      if (gameOver) return;
+      const index = e.target.dataset.index;
+      if (index !== undefined) revealCell(Number(index));
+    }
+
+    function handleRightClick(e) {
+      e.preventDefault();
+      if (gameOver) return;
+      const index = e.target.dataset.index;
+      if (index === undefined) return;
+
+      const cell = cells[index];
+      if (cell.revealed) return;
+
+      cell.flagged = !cell.flagged;
+      cell.element.textContent = cell.flagged ? '🚩' : '';
+      cell.element.classList.toggle('flag');
+    }
+
+    function endGame(won) {
+      gameOver = true;
+      grid.removeEventListener('click', handleClick);
+      grid.removeEventListener('contextmenu', handleRightClick);
+
+      if (!won) {
+        cells.forEach(cell => {
+          if (cell.mine) {
+            cell.element.classList.add('mine');
+            cell.element.textContent = '💣';
+          }
+        });
+        statusText.textContent = '💀 Game Over!';
+      } else {
+        statusText.textContent = '🎉 You Win!';
+      }
+    }
+
+    function checkWin() {
+      const unrevealed = cells.filter(c => !c.revealed && !c.mine);
+      if (unrevealed.length === 0) {
+        endGame(true);
+      }
+    }
+
+    restartBtn.addEventListener('click', createGrid);
+    createGrid();
+  </script>
+
+</body>
+</html>

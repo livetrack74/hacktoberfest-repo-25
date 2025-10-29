@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory Match Game</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1d2b64, #f8cdda);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+
+```
+.game-container {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  gap: 10px;
+  justify-content: center;
+}
+
+.card {
+  width: 80px;
+  height: 80px;
+  background: #34495e;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.card.flipped {
+  background: #ecf0f1;
+  color: #2c3e50;
+  transform: rotateY(180deg);
+}
+
+#restart-btn {
+  margin-top: 20px;
+  background: #e67e22;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#restart-btn:hover {
+  background: #d35400;
+}
+
+#message {
+  margin-top: 15px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+```
+
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Memory Match</h1>
+    <div class="grid" id="grid"></div>
+    <button id="restart-btn">Restart</button>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    const emojis = ['🍎', '🍌', '🍒', '🍇', '🍉', '🍋', '🥝', '🍍'];
+    let cards = [...emojis, ...emojis];
+    let flippedCards = [];
+    let matchedCards = [];
+    const grid = document.getElementById('grid');
+    const message = document.getElementById('message');
+    const restartBtn = document.getElementById('restart-btn');
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function createBoard() {
+      grid.innerHTML = '';
+      cards = shuffle(cards);
+      cards.forEach((emoji, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.emoji = emoji;
+        card.dataset.index = index;
+        card.addEventListener('click', flipCard);
+        grid.appendChild(card);
+      });
+      flippedCards = [];
+      matchedCards = [];
+      message.textContent = '';
+    }
+
+    function flipCard() {
+      const card = this;
+      if (
+        card.classList.contains('flipped') ||
+        flippedCards.length === 2
+      ) return;
+
+      card.classList.add('flipped');
+      card.textContent = card.dataset.emoji;
+      flippedCards.push(card);
+
+      if (flippedCards.length === 2) {
+        checkMatch();
+      }
+    }
+
+    function checkMatch() {
+      const [first, second] = flippedCards;
+      if (first.dataset.emoji === second.dataset.emoji) {
+        matchedCards.push(first, second);
+        flippedCards = [];
+        if (matchedCards.length === cards.length) {
+          message.textContent = "🎉 You won! All pairs matched!";
+        }
+      } else {
+        setTimeout(() => {
+          first.classList.remove('flipped');
+          second.classList.remove('flipped');
+          first.textContent = '';
+          second.textContent = '';
+          flippedCards = [];
+        }, 800);
+      }
+    }
+
+    restartBtn.addEventListener('click', createBoard);
+
+    createBoard();
+  </script>
+
+</body>
+</html>

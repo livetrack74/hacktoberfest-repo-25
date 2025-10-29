@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dodge the Blocks</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      color: #fff;
+    }
+
+```
+#game-container {
+  position: relative;
+  width: 400px;
+  height: 600px;
+  background: #111;
+  border: 3px solid #fff;
+  overflow: hidden;
+}
+
+.player {
+  position: absolute;
+  bottom: 20px;
+  left: 180px;
+  width: 40px;
+  height: 40px;
+  background: #00ff7f;
+  border-radius: 8px;
+}
+
+.block {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  background: #e74c3c;
+  top: 0;
+  border-radius: 6px;
+}
+
+#score {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.2em;
+}
+
+#game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  color: #fff;
+  display: none;
+  text-align: center;
+}
+
+#restart-btn {
+  background: #f39c12;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+#restart-btn:hover {
+  background: #e67e22;
+}
+```
+
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="score">Score: 0</div>
+    <div class="player" id="player"></div>
+    <div id="game-over">
+      <div>💀 Game Over!</div>
+      <button id="restart-btn">Restart</button>
+    </div>
+  </div>
+
+  <script>
+    const player = document.getElementById("player");
+    const gameContainer = document.getElementById("game-container");
+    const scoreText = document.getElementById("score");
+    const gameOverScreen = document.getElementById("game-over");
+    const restartBtn = document.getElementById("restart-btn");
+
+    let playerX = 180;
+    let speed = 4;
+    let blocks = [];
+    let score = 0;
+    let gameOver = false;
+    let blockInterval;
+    let gameLoop;
+
+    function movePlayer(e) {
+      if (gameOver) return;
+      if (e.key === "ArrowLeft" && playerX > 0) {
+        playerX -= 20;
+      } else if (e.key === "ArrowRight" && playerX < 360) {
+        playerX += 20;
+      }
+      player.style.left = playerX + "px";
+    }
+
+    function createBlock() {
+      const block = document.createElement("div");
+      block.classList.add("block");
+      block.style.left = Math.floor(Math.random() * 340) + "px";
+      gameContainer.appendChild(block);
+      blocks.push(block);
+    }
+
+    function updateBlocks() {
+      for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
+        const top = parseInt(block.style.top || 0);
+        if (top > 600) {
+          blocks.splice(i, 1);
+          block.remove();
+          score++;
+          scoreText.textContent = "Score: " + score;
+        } else {
+          block.style.top = top + speed + "px";
+        }
+
+        // Collision detection
+        const blockLeft = parseInt(block.style.left);
+        const blockRight = blockLeft + 60;
+        const playerRight = playerX + 40;
+        const blockBottom = top + 30;
+
+        if (
+          top + 30 >= 560 &&
+          blockLeft < playerRight &&
+          blockRight > playerX
+        ) {
+          endGame();
+        }
+      }
+    }
+
+    function startGame() {
+      gameOver = false;
+      score = 0;
+      speed = 4;
+      playerX = 180;
+      player.style.left = playerX + "px";
+      blocks.forEach(b => b.remove());
+      blocks = [];
+      scoreText.textContent = "Score: 0";
+      gameOverScreen.style.display = "none";
+
+      blockInterval = setInterval(createBlock, 1000);
+      gameLoop = setInterval(() => {
+        updateBlocks();
+        speed += 0.001; // slowly increase difficulty
+      }, 20);
+    }
+
+    function endGame() {
+      clearInterval(blockInterval);
+      clearInterval(gameLoop);
+      gameOver = true;
+      gameOverScreen.style.display = "block";
+    }
+
+    restartBtn.addEventListener("click", startGame);
+    window.addEventListener("keydown", movePlayer);
+
+    startGame();
+  </script>
+
+</body>
+</html>
