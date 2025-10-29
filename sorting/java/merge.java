@@ -98,7 +98,17 @@ public class MergeSort {
 // 5 2 9 1 3 7 
 
 // ✅ Sorted Array:
-// 1 2 3 5 7 9 
+// 1 2 3 5 7 9
+ 
+//algorithm
+
+// | Step | Description                                   |
+// | ---- | --------------------------------------------- |
+// | 1️⃣  | Divide the array into two halves recursively. |
+// | 2️⃣  | Sort each half individually using recursion.  |
+// | 3️⃣  | Merge the two sorted halves into one.         |
+
+
 
 // Time Complexity: O(n log n)
 // Space Complexity: O(n) (for temporary arrays)

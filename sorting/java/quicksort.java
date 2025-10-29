@@ -76,6 +76,16 @@ public class QuickSort {
 
 // ✅ Sorted Array:
 // 1 5 7 8 9 10
+
+//algorithms
+
+// | Step | Description                                                                      |
+// | ---- | ---------------------------------------------------------------------------------|
+// | 1️⃣  | Pick a pivot (here: last element).                                                |
+// | 2️⃣  | Partition the array into two halves — elements ≤ pivot go left, > pivot go right. |
+// | 3️⃣  | Recursively apply Quick Sort to both halves.                                      |
+
+
 // Time Complexity:
 
 // Best / Average: O(n log n)
