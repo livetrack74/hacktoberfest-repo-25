@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jump the Obstacle</title>
+  <style>
+    :root{
+      --bg1:#87CEEB; /* sky */
+      --ground:#2d2d2d;
+      --player:#ffdd57;
+      --ob:#e74c3c;
+      --accent:#ffffffaa;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background: linear-gradient(180deg,var(--bg1) 0%, #a0d8ff 60%, #7ec0ff 100%);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      color:#111;
+    }
+
+    .wrap{
+      width:420px;
+      max-width:95vw;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border-radius:12px;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.25);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.06);
+    }
+
+    header{
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    h1{font-size:18px; font-weight:700; color:#022;}
+    .controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    button {
+      background:#ff8a00;
+      border: none;
+      color:white;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    button:active{transform:translateY(1px)}
+
+    /* game area */
+    .game {
+      position:relative;
+      width:100%;
+      height:520px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.02));
+      overflow:hidden;
+      touch-action: manipulation;
+      user-select:none;
+    }
+
+    /* ground */
+    .ground {
+      position:absolute;
+      left:0; right:0;
+      bottom:0;
+      height:120px;
+      background:
+        linear-gradient(180deg,#3b3b3b,#2b2b2b);
+      border-top:4px solid rgba(255,255,255,0.03);
+    }
+
+    /* decorative parallax clouds/ground stripes (pure CSS) */
+    .hills{
+      position:absolute;
+      bottom:80px;
+      left:-50%;
+      width:200%;
+      height:140px;
+      background:
+        radial-gradient(circle at 20% 40%, rgba(255,255,255,0.06) 0 8%, transparent 9%),
+        radial-gradient(circle at 60% 35%, rgba(255,255,255,0.04) 0 9%, transparent 10%),
+        linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.02));
+      transform:translateZ(0);
+      pointer-events:none;
+      animation: hillsMove 7s linear infinite;
+    }
+    @keyframes hillsMove{ from{transform:translateX(0)} to{transform:translateX(-25%)} }
+
+    /* player */
+    .player {
+      position: absolute;
+      left:70px;
+      bottom:120px;
+      width:54px;
+      height:54px;
+      border-radius:10px;
+      background: linear-gradient(180deg,#ffd86b,#ffcd3c);
+      box-shadow: 0 6px 0 rgba(0,0,0,0.15), inset 0 -6px 12px rgba(0,0,0,0.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:28px;
+      transition: transform 0.08s linear;
+      will-change: transform;
+    }
+
+    /* simple jump squish */
+    .player.jump-squish { transform: scaleY(.95) translateY(-6px); transition: transform 110ms; }
+
+    /* obstacle container */
+    .obstacle {
+      position:absolute;
+      bottom:120px;
+      width:48px;
+      height:48px;
+      background: linear-gradient(180deg,var(--ob), #c0392b);
+      border-radius:8px;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.18);
+    }
+
+    /* scorebox */
+    .hud{
+      position:absolute;
+      right:12px;
+      top:12px;
+      padding:8px 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius:8px;
+      color:#012;
+      font-weight:700;
+      font-size:14px;
+      backdrop-filter: blur(4px);
+    }
+
+    .game-over {
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.35));
+      color:white;
+      font-weight:800;
+      font-size:20px;
+      flex-direction:column;
+      gap:12px;
+      z-index:60;
+      pointer-events:auto;
+    }
+
+    .small {
+      font-size:13px;
+      font-weight:600;
+      opacity:.95;
+    }
+
+    footer{
+      padding:10px 14px;
+      font-size:13px;
+      color: #022;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    @media (max-width:420px){
+      .game{height:440px}
+      .ground{height:100px}
+      .player{left:50px; width:44px;height:44px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="application" aria-label="Jump The Obstacle Game">
+    <header>
+      <h1>Jump the Obstacle</h1>
+      <div class="controls">
+        <div style="font-size:13px;color:#044;">Jump: Space / ↑ / Tap</div>
+        <button id="btnRestart">Restart</button>
+      </div>
+    </header>
+
+    <main class="game" id="gameArea" tabindex="0">
+      <div class="hud" id="hud">Score: 0</div>
+
+      <div class="hills" aria-hidden="true"></div>
+
+      <div class="player" id="player" aria-hidden="true">🏃</div>
+
+      <div class="ground" aria-hidden="true"></div>
+
+      <!-- obstacles will be appended here -->
+      <div id="obstaclesContainer" aria-hidden="true"></div>
+
+      <!-- Game over overlay -->
+      <div id="gameOverOverlay" class="game-over" style="display:none;">
+        <div style="font-size:28px">💥 Game Over</div>
+        <div class="small" id="finalScore">You scored 0</div>
+        <div style="display:flex; gap:10px;">
+          <button id="playAgain">Play Again</button>
+          <button id="closeOverlay" style="background:#bbb;color:#111">Close</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div>Distance Runner • HTML/CSS/JS</div>
+      <div style="opacity:.8">Built small & fast</div>
+    </footer>
+  </div>
+
+  <script>
+    /* ===== Game configuration ===== */
+    const GRAVITY = 0.9;
+    const JUMP_VELOCITY = -16;        // initial jump impulse
+    const GROUND_Y = 120;            // ground height
+    const OB_MIN_GAP = 900;          // min ms between obstacles
+    const OB_MAX_GAP = 1600;         // max ms
+    const OB_MIN_SPEED = 4;          // px per frame (will increase)
+    const OB_SPEED_INC = 0.0008;     // speed scaling per ms
+    const PLAYER_LEFT = 70;          // fixed horizontal position
+    const PLAYER_WIDTH = 54;
+    const PLAYER_HEIGHT = 54;
+
+    /* ===== Elements ===== */
+    const gameArea = document.getElementById('gameArea');
+    const playerEl = document.getElementById('player');
+    const obstaclesContainer = document.getElementById('obstaclesContainer');
+    const hud = document.getElementById('hud');
+    const btnRestart = document.getElementById('btnRestart');
+    const gameOverOverlay = document.getElementById('gameOverOverlay');
+    const finalScore = document.getElementById('finalScore');
+    const playAgain = document.getElementById('playAgain');
+    const closeOverlay = document.getElementById('closeOverlay');
+
+    /* ===== State ===== */
+    let player = {
+      x: PLAYER_LEFT,
+      y: 0,             // distance above ground in px
+      vy: 0,
+      isAir: false
+    };
+
+    let obstacles = [];       // {el, x, width, height}
+    let lastObstacleTime = 0;
+    let lastFrameTime = 0;
+    let running = false;
+    let score = 0;
+    let speedBase = OB_MIN_SPEED;
+    let rafId = null;
+
+    /* ===== Utilities ===== */
+    function now(){ return performance.now(); }
+
+    function randRange(min, max){ return Math.random() * (max - min) + min; }
+
+    /* ===== Init / Reset ===== */
+    function resetGame(){
+      // clear obstacles
+      obstacles.forEach(o => o.el.remove());
+      obstacles = [];
+      lastObstacleTime = now();
+      lastFrameTime = now();
+      score = 0;
+      speedBase = OB_MIN_SPEED;
+      player.y = 0;
+      player.vy = 0;
+      player.isAir = false;
+      playerEl.style.left = PLAYER_LEFT + 'px';
+      playerEl.style.bottom = (GROUND_Y + player.y) + 'px';
+      hud.textContent = 'Score: 0';
+      gameOverOverlay.style.display = 'none';
+    }
+
+    /* ===== Input ===== */
+    function doJump(){
+      if (!running) return;
+      if (!player.isAir){
+        player.vy = JUMP_VELOCITY;
+        player.isAir = true;
+        // brief squish animation
+        playerEl.classList.add('jump-squish');
+        setTimeout(()=>playerEl.classList.remove('jump-squish'),120);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        doJump();
+      }
+    });
+
+    // click/tap to jump or start
+    gameArea.addEventListener('pointerdown', (e) => {
+      if (!running) startGame();
+      doJump();
+    });
+
+    btnRestart.addEventListener('click', () => {
+      startGame();
+    });
+
+    playAgain.addEventListener('click', startGame);
+    closeOverlay.addEventListener('click', () => gameOverOverlay.style.display='none');
+
+    /* ===== Obstacles ===== */
+    function spawnObstacle(){
+      const obWidth = Math.floor(randRange(36, 64));
+      const obHeight = Math.floor(randRange(36, 88));
+      const el = document.createElement('div');
+      el.className = 'obstacle';
+      el.style.width = obWidth + 'px';
+      el.style.height = obHeight + 'px';
+      // start off-screen to right
+      const startX = gameArea.clientWidth + 50;
+      el.style.left = startX + 'px';
+      el.style.bottom = GROUND_Y + 'px';
+      obstaclesContainer.appendChild(el);
+      obstacles.push({el, x: startX, width: obWidth, height: obHeight});
+      lastObstacleTime = now();
+    }
+
+    /* ===== Collision detection ===== */
+    function rectsOverlap(r1, r2){
+      return !(r2.left > r1.right || 
+               r2.right < r1.left || 
+               r2.top > r1.bottom ||
+               r2.bottom < r1.top);
+    }
+
+    function checkCollisions(){
+      const playerRect = {
+        left: PLAYER_LEFT,
+        right: PLAYER_LEFT + PLAYER_WIDTH,
+        bottom: GROUND_Y + player.y + PLAYER_HEIGHT,
+        top: GROUND_Y + player.y
+      };
+
+      for (let i=0;i<obstacles.length;i++){
+        const o = obstacles[i];
+        const obLeft = o.x;
+        const obRight = o.x + o.width;
+        const obTop = GROUND_Y + o.height;
+        const obBottom = GROUND_Y;
+
+        const obRect = { left: obLeft, right: obRight, top: obBottom, bottom: obTop };
+        // convert player's top/bottom to same axis - note: top < bottom in our numbers
+        // Adjusted overlap test for axis used above:
+        // Check horizontal overlap and vertical overlap
+        const horizOverlap = !(obRight < playerRect.left || obLeft > playerRect.right);
+        const vertOverlap = !( (obTop) < playerRect.top || (obBottom) > playerRect.bottom );
+
+        if (horizOverlap && vertOverlap) return true;
+      }
+      return false;
+    }
+
+    /* ===== Game loop ===== */
+    function update(ts){
+      if (!lastFrameTime) lastFrameTime = ts;
+      const delta = ts - lastFrameTime;
+      lastFrameTime = ts;
+
+      // Score grows with time
+      score += delta * 0.01; // scale
+      hud.textContent = 'Score: ' + Math.floor(score);
+
+      // increase base obstacle speed slowly over time
+      speedBase += delta * OB_SPEED_INC;
+
+      // Player physics
+      if (player.isAir){
+        player.vy += GRAVITY * (delta/16);
+        player.y += player.vy;
+        if (player.y >= 0){ // landed
+          player.y = 0;
+          player.vy = 0;
+          player.isAir = false;
+        }
+      }
+      playerEl.style.bottom = (GROUND_Y + player.y) + 'px';
+
+      // Spawn obstacles at random intervals
+      if (now() - lastObstacleTime > randRange(OB_MIN_GAP, OB_MAX_GAP)){
+        spawnObstacle();
+      }
+
+      // Update obstacles positions
+      for (let i = obstacles.length-1; i >= 0; i--){
+        const o = obstacles[i];
+        o.x -= speedBase * (delta/16);
+        if (o.x + o.width < -100){
+          // off-screen left
+          o.el.remove();
+          obstacles.splice(i,1);
+          continue;
+        }
+        o.el.style.left = o.x + 'px';
+      }
+
+      // Collision
+      if (checkCollisions()){
+        return gameOver();
+      }
+
+      rafId = requestAnimationFrame(update);
+    }
+
+    /* ===== Start / Stop ===== */
+    function startGame(){
+      cancelAnimationFrame(rafId);
+      resetGame();
+      running = true;
+      lastFrameTime = 0;
+      rafId = requestAnimationFrame(update);
+      // ensure focus to capture key events
+      gameArea.focus();
+    }
+
+    function gameOver(){
+      running = false;
+      cancelAnimationFrame(rafId);
+      finalScore.textContent = 'You scored ' + Math.floor(score);
+      gameOverOverlay.style.display = 'flex';
+    }
+
+    // initial instructions: start on first tap / key
+    (function attachStart(){
+      const startNotice = document.createElement('div');
+      startNotice.style.position='absolute';
+      startNotice.style.left='50%';
+      startNotice.style.top='45%';
+      startNotice.style.transform='translate(-50%,-50%)';
+      startNotice.style.padding='12px 16px';
+      startNotice.style.background='rgba(0,0,0,0.25)';
+      startNotice.style.color='white';
+      startNotice.style.borderRadius='10px';
+      startNotice.style.fontWeight=700;
+      startNotice.style.pointerEvents='none';
+      startNotice.style.zIndex=40;
+      startNotice.textContent = 'Tap or Press Space to Start & Jump';
+      gameArea.appendChild(startNotice);
+      // remove notice when game starts
+      const removeNotice = () => { startNotice.remove(); gameArea.removeEventListener('pointerdown', removeNotice); window.removeEventListener('keydown', removeNotice); };
+      gameArea.addEventListener('pointerdown', removeNotice);
+      window.addEventListener('keydown', removeNotice);
+    })();
+
+    // start initially so player sees movement; user can restart anytime
+    startGame();
+  </script>
+</body>
+</html>

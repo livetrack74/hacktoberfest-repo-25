@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number Puzzle</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+
+```
+h1 {
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  grid-gap: 8px;
+}
+
+.tile {
+  width: 80px;
+  height: 80px;
+  background: #2ecc71;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8em;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.tile:hover {
+  background: #27ae60;
+}
+
+.empty {
+  background: transparent;
+  cursor: default;
+}
+
+#restart-btn {
+  margin-top: 20px;
+  background: #f39c12;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s;
+}
+
+#restart-btn:hover {
+  background: #e67e22;
+}
+
+#message {
+  margin-top: 15px;
+  font-size: 1.2em;
+}
+```
+
+  </style>
+</head>
+<body>
+  <h1>Number Puzzle</h1>
+  <div class="grid" id="grid"></div>
+  <button id="restart-btn">Restart</button>
+  <div id="message"></div>
+
+  <script>
+    const grid = document.getElementById("grid");
+    const message = document.getElementById("message");
+    const restartBtn = document.getElementById("restart-btn");
+
+    let tiles = [];
+    const size = 4;
+    let emptyIndex;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function createBoard() {
+      grid.innerHTML = "";
+      let numbers = [...Array(size * size - 1).keys()].map(n => n + 1);
+      numbers = shuffle(numbers);
+      numbers.push(""); // empty tile
+      tiles = numbers;
+
+      tiles.forEach((num, index) => {
+        const tile = document.createElement("div");
+        tile.classList.add("tile");
+        if (num === "") {
+          tile.classList.add("empty");
+          emptyIndex = index;
+        } else {
+          tile.textContent = num;
+          tile.addEventListener("click", () => moveTile(index));
+        }
+        grid.appendChild(tile);
+      });
+      message.textContent = "";
+    }
+
+    function moveTile(index) {
+      const validMoves = [index - 1, index + 1, index - size, index + size];
+      if (!validMoves.includes(emptyIndex)) return;
+
+      const isAdjacent =
+        (index % size !== size - 1 && index + 1 === emptyIndex) ||
+        (index % size !== 0 && index - 1 === emptyIndex) ||
+        index + size === emptyIndex ||
+        index - size === emptyIndex;
+
+      if (isAdjacent) {
+        [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+        createBoard();
+        checkWin();
+      }
+    }
+
+    function checkWin() {
+      const correct = [...Array(size * size - 1).keys()].map(n => n + 1);
+      const current = tiles.slice(0, -1);
+      if (JSON.stringify(correct) === JSON.stringify(current)) {
+        message.textContent = "🎉 You solved it!";
+      }
+    }
+
+    restartBtn.addEventListener("click", createBoard);
+    createBoard();
+  </script>
+
+</body>
+</html>

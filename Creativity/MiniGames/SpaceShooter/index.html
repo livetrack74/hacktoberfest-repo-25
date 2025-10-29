@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Space Shooter</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: black;
+      overflow: hidden;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+```
+#game-container {
+  position: relative;
+  width: 400px;
+  height: 600px;
+  background: radial-gradient(circle at bottom, #001, #000);
+  border: 2px solid #00f;
+  overflow: hidden;
+}
+
+.ship {
+  position: absolute;
+  bottom: 20px;
+  left: 180px;
+  width: 40px;
+  height: 40px;
+  background: #00ffea;
+  border-radius: 6px;
+  box-shadow: 0 0 15px #0ff;
+}
+
+.bullet {
+  position: absolute;
+  width: 5px;
+  height: 15px;
+  background: yellow;
+  border-radius: 2px;
+}
+
+.enemy {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: crimson;
+  border-radius: 8px;
+}
+
+#score {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.2em;
+}
+
+#game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  text-align: center;
+  display: none;
+}
+
+#restart-btn {
+  background: #f39c12;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#restart-btn:hover {
+  background: #e67e22;
+}
+```
+
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div class="ship" id="ship"></div>
+    <div id="score">Score: 0</div>
+    <div id="game-over">
+      <div>💀 Game Over!</div>
+      <button id="restart-btn">Restart</button>
+    </div>
+  </div>
+
+  <script>
+    const game = document.getElementById("game-container");
+    const ship = document.getElementById("ship");
+    const scoreText = document.getElementById("score");
+    const gameOverScreen = document.getElementById("game-over");
+    const restartBtn = document.getElementById("restart-btn");
+
+    let shipX = 180;
+    let bullets = [];
+    let enemies = [];
+    let score = 0;
+    let gameOver = false;
+    let bulletSpeed = 5;
+    let enemySpeed = 2;
+    let spawnRate = 1500;
+    let gameLoop;
+    let enemyInterval;
+
+    function moveShip(e) {
+      if (gameOver) return;
+      if (e.key === "ArrowLeft" && shipX > 0) shipX -= 20;
+      if (e.key === "ArrowRight" && shipX < 360) shipX += 20;
+      ship.style.left = shipX + "px";
+
+      if (e.key === " ") {
+        shoot();
+      }
+    }
+
+    function shoot() {
+      const bullet = document.createElement("div");
+      bullet.classList.add("bullet");
+      bullet.style.left = shipX + 17 + "px";
+      bullet.style.bottom = "60px";
+      game.appendChild(bullet);
+      bullets.push(bullet);
+    }
+
+    function spawnEnemy() {
+      const enemy = document.createElement("div");
+      enemy.classList.add("enemy");
+      enemy.style.left = Math.floor(Math.random() * 360) + "px";
+      enemy.style.top = "0px";
+      game.appendChild(enemy);
+      enemies.push(enemy);
+    }
+
+    function updateGame() {
+      // Move bullets
+      for (let i = 0; i < bullets.length; i++) {
+        const bullet = bullets[i];
+        let bottom = parseInt(bullet.style.bottom);
+        if (bottom > 600) {
+          bullet.remove();
+          bullets.splice(i, 1);
+        } else {
+          bullet.style.bottom = bottom + bulletSpeed + "px";
+        }
+      }
+
+      // Move enemies
+      for (let i = 0; i < enemies.length; i++) {
+        const enemy = enemies[i];
+        let top = parseInt(enemy.style.top);
+        if (top > 600) {
+          enemy.remove();
+          enemies.splice(i, 1);
+          endGame();
+        } else {
+          enemy.style.top = top + enemySpeed + "px";
+        }
+
+        // Collision check
+        const enemyRect = enemy.getBoundingClientRect();
+        const shipRect = ship.getBoundingClientRect();
+        if (
+          enemyRect.bottom >= shipRect.top &&
+          enemyRect.left < shipRect.right &&
+          enemyRect.right > shipRect.left
+        ) {
+          endGame();
+        }
+
+        bullets.forEach((bullet, bIndex) => {
+          const bulletRect = bullet.getBoundingClientRect();
+          if (
+            bulletRect.bottom >= enemyRect.top &&
+            bulletRect.top <= enemyRect.bottom &&
+            bulletRect.left < enemyRect.right &&
+            bulletRect.right > enemyRect.left
+          ) {
+            enemy.remove();
+            bullet.remove();
+            enemies.splice(i, 1);
+            bullets.splice(bIndex, 1);
+            score++;
+            scoreText.textContent = "Score: " + score;
+          }
+        });
+      }
+    }
+
+    function startGame() {
+      gameOver = false;
+      score = 0;
+      shipX = 180;
+      ship.style.left = shipX + "px";
+      bullets.forEach(b => b.remove());
+      enemies.forEach(e => e.remove());
+      bullets = [];
+      enemies = [];
+      scoreText.textContent = "Score: 0";
+      gameOverScreen.style.display = "none";
+
+      gameLoop = setInterval(updateGame, 20);
+      enemyInterval = setInterval(spawnEnemy, spawnRate);
+    }
+
+    function endGame() {
+      clearInterval(gameLoop);
+      clearInterval(enemyInterval);
+      gameOver = true;
+      gameOverScreen.style.display = "block";
+    }
+
+    restartBtn.addEventListener("click", startGame);
+    window.addEventListener("keydown", moveShip);
+
+    startGame();
+  </script>
+
+</body>
+</html>

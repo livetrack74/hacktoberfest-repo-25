@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click Speed Test</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #4ca1af);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      user-select: none;
+    }
+
+```
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+#game-container {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 30px 50px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+#click-area {
+  width: 200px;
+  height: 200px;
+  background: #27ae60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5em;
+  transition: background 0.2s ease;
+  margin: 20px auto;
+}
+
+#click-area:hover {
+  background: #2ecc71;
+}
+
+#timer, #score {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+#start-btn {
+  background: #f39c12;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s;
+}
+
+#start-btn:hover {
+  background: #e67e22;
+}
+
+#result {
+  font-size: 1.4em;
+  margin-top: 15px;
+  font-weight: bold;
+}
+```
+
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <h1>Click Speed Test</h1>
+    <button id="start-btn">Start Game</button>
+    <div id="click-area">Click!</div>
+    <div id="timer">Time Left: 10s</div>
+    <div id="score">Clicks: 0</div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const clickArea = document.getElementById('click-area');
+    const startBtn = document.getElementById('start-btn');
+    const timerText = document.getElementById('timer');
+    const scoreText = document.getElementById('score');
+    const resultText = document.getElementById('result');
+
+    let timeLeft = 10;
+    let score = 0;
+    let gameActive = false;
+    let countdown;
+
+    startBtn.addEventListener('click', startGame);
+
+    function startGame() {
+      score = 0;
+      timeLeft = 10;
+      gameActive = true;
+      scoreText.textContent = "Clicks: 0";
+      timerText.textContent = "Time Left: 10s";
+      resultText.textContent = "";
+      startBtn.disabled = true;
+
+      countdown = setInterval(() => {
+        timeLeft--;
+        timerText.textContent = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    clickArea.addEventListener('click', () => {
+      if (!gameActive) return;
+      score++;
+      scoreText.textContent = `Clicks: ${score}`;
+    });
+
+    function endGame() {
+      clearInterval(countdown);
+      gameActive = false;
+      startBtn.disabled = false;
+      const cps = (score / 10).toFixed(2);
+      resultText.textContent = `⏱️ Time's up! You clicked ${score} times (${cps} CPS)`;
+    }
+  </script>
+
+</body>
+</html>

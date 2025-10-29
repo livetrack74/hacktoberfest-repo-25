@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      text-align: center;
+    }
+
+```
+h1 {
+  margin-bottom: 30px;
+}
+
+.choices {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.choice {
+  background: #3498db;
+  border: none;
+  border-radius: 12px;
+  padding: 15px 25px;
+  font-size: 1.2em;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.choice:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+#result {
+  font-size: 1.4em;
+  margin-top: 10px;
+}
+
+#score {
+  margin-top: 20px;
+  font-size: 1.1em;
+}
+
+#restart-btn {
+  margin-top: 20px;
+  background: #e67e22;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s;
+  display: none;
+}
+
+#restart-btn:hover {
+  background: #d35400;
+}
+```
+
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <div class="choices">
+    <button class="choice" data-choice="rock">🪨 Rock</button>
+    <button class="choice" data-choice="paper">📄 Paper</button>
+    <button class="choice" data-choice="scissors">✂️ Scissors</button>
+  </div>
+
+  <div id="result"></div>
+  <div id="score"></div>
+  <button id="restart-btn">Restart</button>
+
+  <script>
+    const choices = document.querySelectorAll('.choice');
+    const resultDiv = document.getElementById('result');
+    const scoreDiv = document.getElementById('score');
+    const restartBtn = document.getElementById('restart-btn');
+
+    let playerScore = 0;
+    let computerScore = 0;
+
+    const options = ['rock', 'paper', 'scissors'];
+
+    choices.forEach(btn => {
+      btn.addEventListener('click', () => playRound(btn.dataset.choice));
+    });
+
+    function playRound(playerChoice) {
+      const computerChoice = options[Math.floor(Math.random() * 3)];
+
+      let result = '';
+      if (playerChoice === computerChoice) {
+        result = `🤝 It's a draw! You both chose ${playerChoice}.`;
+      } else if (
+        (playerChoice === 'rock' && computerChoice === 'scissors') ||
+        (playerChoice === 'paper' && computerChoice === 'rock') ||
+        (playerChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        result = `✅ You win! ${capitalize(playerChoice)} beats ${computerChoice}.`;
+        playerScore++;
+      } else {
+        result = `❌ You lose! ${capitalize(computerChoice)} beats ${playerChoice}.`;
+        computerScore++;
+      }
+
+      resultDiv.textContent = result;
+      scoreDiv.textContent = `Score: You ${playerScore} - ${computerScore} Computer`;
+
+      if (playerScore === 5 || computerScore === 5) endGame();
+    }
+
+    function endGame() {
+      if (playerScore > computerScore) {
+        resultDiv.textContent = `🎉 You won the match ${playerScore} - ${computerScore}!`;
+      } else {
+        resultDiv.textContent = `😞 Computer won the match ${computerScore} - ${playerScore}.`;
+      }
+
+      choices.forEach(btn => (btn.disabled = true));
+      restartBtn.style.display = 'inline-block';
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    restartBtn.addEventListener('click', () => {
+      playerScore = 0;
+      computerScore = 0;
+      resultDiv.textContent = '';
+      scoreDiv.textContent = '';
+      restartBtn.style.display = 'none';
+      choices.forEach(btn => (btn.disabled = false));
+    });
+  </script>
+
+</body>
+</html>
