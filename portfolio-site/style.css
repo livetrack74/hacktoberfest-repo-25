@@ -99,6 +99,12 @@ img { max-width: 100%; display: block; border-radius: 12px; }
 .card-actions { display: flex; gap: .5rem; }
 
 /* Contact */
+#contact_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .contact-form { background: var(--card); padding: 1.1rem; border-radius: 16px; border: 1px solid color-mix(in oklab, var(--text), transparent 88%); box-shadow: var(--shadow); max-width: 720px; }
 .form-row { display: grid; gap: .35rem; margin-bottom: .9rem; }
 label { font-weight: 600; }
