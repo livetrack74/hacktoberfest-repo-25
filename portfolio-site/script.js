@@ -159,3 +159,42 @@ if (y) y.textContent = new Date().getFullYear();
 // Potential issues:
 // - Assumes element exists; handled by conditional.
 // - Could format year dynamically if needed for different locales.
+
+
+// === Re-trigger Skills Animation on Theme Toggle ===
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    // Wait for theme transition to finish
+    setTimeout(() => {
+      const skillsSection = document.querySelector(".skills");
+      if (!skillsSection) return;
+      const skillBars = skillsSection.querySelectorAll(".skill-bar-fill");
+      const skillPercents = skillsSection.querySelectorAll(".skill-percent");
+      // Reset bars and text to 0%
+      skillBars.forEach(bar => (bar.style.width = "0%"));
+      skillPercents.forEach(text => (text.textContent = "0%"));
+      // Re-run the animation function from your inline script
+      const animateSkills = () => {
+        skillBars.forEach(bar => {
+          const target = parseInt(bar.getAttribute("data-percent"));
+          const percentText = bar.parentElement.previousElementSibling.querySelector(".skill-percent");
+          // Animate bar width
+          setTimeout(() => {
+            bar.style.width = target + "%";
+          }, 200);
+          // Animate number counting
+          let count = 0;
+          const interval = setInterval(() => {
+            if (count < target) {
+              count++;
+              percentText.textContent = count + "%";
+            } else {
+              clearInterval(interval);
+            }
+          }, 25);
+        });
+      };
+      animateSkills();
+    }, 300); // small delay so theme toggle finishes
+  });
+}

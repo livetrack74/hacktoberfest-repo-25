@@ -22,7 +22,6 @@ html:focus-within { scroll-behavior: smooth; }
   --shadow: 0 10px 30px rgba(2,6,23,.08);
 }
 
-
 body {
   margin: 0; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background: radial-gradient(1200px 800px at 20% -10%, rgba(10,132,255,.08), transparent 50%),
@@ -33,6 +32,10 @@ body {
 }
 img { max-width: 100%; display: block; border-radius: 12px; }
 .container { width: min(1100px, 90%); margin: 0 auto; }
+
+html {
+  scroll-behavior: smooth;
+}
 
 /* ========== Header ========== */
 .site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(1.2) blur(10px); background: color-mix(in oklab, var(--bg), transparent 70%); border-bottom: 1px solid color-mix(in oklab, var(--text), transparent 90%); }
@@ -219,4 +222,66 @@ input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4p
   background: linear-gradient(90deg, #00bfff, #007bff);
   border-radius: 6px;
   transition: width 2s ease-in-out;
+}
+
+
+/* ==== Light Mode Enhancements — Skills Section ==== */
+:root.light .skills {
+  background: transparent; /* inherit from body gradient */
+  color: var(--text);
+}
+/* Heading & paragraph contrast */
+:root.light .skills h2 {
+  color: #111; /* high contrast */
+}
+:root.light .skills p {
+  color: #444; /* softer contrast for subtitle */
+}
+/* Skill card redesign for light mode */
+:root.light .skill {
+  background: #f9fafb;
+  color: #111;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+/* Hover & focus for interactivity */
+:root.light .skill:hover,
+:root.light .skill:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+/* Skill header */
+:root.light .skill-header {
+  color: #222;
+  font-weight: 600;
+}
+/* Progress bar colors adjusted for light mode */
+:root.light .skill-bar {
+  background: #e5e7eb;
+}
+:root.light .skill-bar-fill {
+  background: linear-gradient(90deg, #007bff, #00bfff);
+}
+/* Improve section spacing and responsiveness */
+.skills {
+  padding: 60px 0;
+}
+.skill {
+  padding: 20px;
+}
+/* === Optional Enhancement: Smooth reveal animation === */
+.skills[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.skills[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Animated skill bars */
+.skills[data-reveal].visible .skill-bar-fill {
+  width: var(--w);
 }
