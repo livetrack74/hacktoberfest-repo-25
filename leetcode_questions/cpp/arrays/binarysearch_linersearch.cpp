@@ -47,11 +47,32 @@ int binarysearch(vector<int> &arr, int target) {//sortedarray
     }
     return -1;
 }
+
+int bs(vector<int>& nums, int target, int st, int end) {//recursion
+        if (st <= end) {
+            int mid = st + (end - st) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                 return bs(nums, target, st, mid - 1);
+            } else {
+               return  bs(nums, target, mid + 1, end);
+            }
+        }
+        return -1;
+    }
+
+    int search(vector<int>& nums, int target) {
+        return bs(nums, target, 0, nums.size() - 1);
+    }
+
 int main() {
     vector<int> arr = {4, 2, 1, 5, 3};
     int target = 5;
     cout << linersearch(arr, target) << endl;
     sort(arr.begin(), arr.end());
     cout << binarysearch(arr, target) << endl;
+    cout << search(arr, target) << endl;
  return 0;
 }
