@@ -84,9 +84,6 @@ body{
 }
 .tag.active{outline:2px solid var(--brand)}
 
-/* Chips in hero art */
-.hero-art{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; align-self:stretch}
-.chip{display:flex; align-items:center; justify-content:center; padding:14px; border-radius:16px; background:linear-gradient(145deg, #0b1220, #111a30); border:1px solid var(--border); box-shadow:var(--shadow); font-weight:700}
 
 /* Content */
 .content{padding:28px 0 16px}
@@ -154,4 +151,51 @@ html.light{
 }
 html.dark{
   --bg:#0b1220; --panel:#0f172a; --text:#e5e7eb; --muted:#94a3b8; --brand:#60a5fa; --brand-strong:#3b82f6; --border:#1f2a44; --chip:#111827; --shadow:0 6px 24px rgba(0,0,0,.25);
+}
+
+.search input,
+.search button {
+  background-color: var(--panel);   /* uses panel color for theme */
+  color: var(--text);               /* text color adapts automatically */
+  border: 1px solid var(--border);  /* border matches theme */
+  padding: 8px 12px;
+  border-radius: 8px;
+  
+}
+
+/* Optional: hover effect for the button */
+.search button:hover {
+  background-color: var(--chip);
+  cursor: pointer;
+}
+
+
+/* Chips in hero art */
+.hero-art {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-self: stretch;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+  background: linear-gradient(145deg, #0b1220, #111a30);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  font-weight: 700;
+  overflow: hidden; /* ensures image does not spill out */
+}
+
+/* Target images inside chip */
+.chip img {
+  width: 100%;         /* fill the chip horizontally */
+  height: 100%;        /* fill the chip vertically */
+  object-fit: cover;   /* maintain aspect ratio, crop if needed */
+  border-radius: 12px; /* optional, match chip corners */
+  display: block;      /* remove extra inline spacing */
 }
